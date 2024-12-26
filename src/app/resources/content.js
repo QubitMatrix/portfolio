@@ -88,7 +88,7 @@ const about = {
                 timeframe: 'Jan 2024 - May 2024',
                 role: 'Teaching Assistant for Design and Analysis of Algorithms',
                 achievements: [
-                    <>Developed an automation tool that significantly streamlined the evaluation process by eliminating time-consuming manual tasks like invoking APIs, session mark calculation and updation</>,
+                    <>Developed an <a href="https://github.com/QubitMatrix/Automated_MOSS_Plagiarism_Checker" target="_blank">automation tool</a> that significantly streamlined the evaluation process by eliminating time-consuming manual tasks like invoking APIs, session mark calculation and updation</>,
                     <>Framed problem statements for individual topics and worksheets for each unit</>
                 ],
                 images: [ ]

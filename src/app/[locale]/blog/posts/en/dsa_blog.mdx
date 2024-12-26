@@ -6,7 +6,7 @@ summary: "Most of us see a question and just start typing out some logic that co
 tag: "beginners, data structures"
 ---
 
-## Introduction:
+## Introduction
 
 Most of us see a question and just start typing out some logic that comes to our mind. Most of the time we don't give importance to which approach is to be followed. While a program can have many possible answers, there is only a few which is optimal. As good programmers our aim is to find the most optimal solution.
 
@@ -17,7 +17,7 @@ With these two 'weapons' we can solve any complex question and also make our app
 
 
 In this blog we are going to cover the basics about Data Structures.
-## Topics covered:
+## Topics covered
 1. Importance of Data Structures
 2. Sample statistic to show need for Data Structures
 3. List of Data Structures
@@ -51,7 +51,7 @@ _All the complexity tables discussed further are the average case complexities a
 
 Now that we are clear with complexities, let's go ahead with some statistics.   
 
-## Let's take a simple example:
+## Let's take a simple example
 -> You want to search for some of your favourite books in your large collection of books(example of insert once, search multiple times)
 
 ### Approach 1: Using **List** structure   
@@ -87,7 +87,7 @@ Time taken for 10<sup>6</sup> search queries in a dataset of 10<sup>4</sup> uniq
 <br/>
 Now that we have understood the need for Data Structures let's dive into the various types of data structures!   
 
-### Data Structures are mainly of two types:   
+### Data Structures are mainly of two types   
 ->**Linear**(Eg: list,stack,queue,hashmap(dictionary in python),hashset(sets in python))   
 > In this type, the elements may be placed randomly or sequentially in the computer memory based on the implementation, but the access is always sequential.   
 
@@ -112,13 +112,19 @@ It is mostly used to implement other data structures and it offers very limited 
 
 Time complexity of every structure depends on the implementation of the structure.
 
-#### Time complexity of lists:   
-| Operation | Array implementation | Linked list implementation |   
-|:---------:|:--------------------:|:--------------------------:|   
-|Search     |O(n)                  |O(n)                        |   
-|Insert     |O(n)                  |O(1)                        |   
-|Delete     |O(n)                  |O(1)                        |   
-|Access     |O(1)                  |O(n)                        |   
+#### Time complexity of lists  
+
+<Table data={{
+  headers: ['Operation', 'Array Implementation', 'Linked List Implementation'],
+  rows: [
+    ['Search', 'O(n)', 'O(n)'],
+    ['Insert', 'O(n)', 'O(1)'],
+    ['Delete', 'O(n)', 'O(1)'],
+    ['Access', 'O(1)', 'O(n)'],
+  ]
+}} />
+
+<br/>
 
 Space complexity: `O(n)`
 > Space required to implement list using linked list is more precisely O(2n) due to additional pointers but it is approximated to be O(n).   
@@ -177,13 +183,19 @@ A binary tree in which the root's value is greater than each left subtree and le
 
 ![Binary tree vs Binary search tree](/images/blogs/bt_bst.webp)   
 
-#### Time complexity of BST:   
-| Operation | Average Time Complexity |
-|:---------:|:-----------------------:|
-|Search     |O(log<sub>2</sub>n)      |
-|Insert     |O(log<sub>2</sub>n)      |
-|Delete     |O(log<sub>2</sub>n)      |
-|Access     |O(log<sub>2</sub>n)      |   
+#### Time complexity of BST   
+
+<Table data={{
+  headers: ['Operation', 'Average Time Complexity'],
+  rows: [
+    ['Search', 'O(log<sub>2</sub>n)'],
+    ['Insert', 'O(log<sub>2</sub>n)'],
+    ['Delete', 'O(log<sub>2</sub>n)'],
+    ['Access', 'O(log<sub>2</sub>n)'],
+  ]
+}}/>
+
+<br/>
 
 Space complexity: `O(n)`   
 <br/>
@@ -218,7 +230,7 @@ It is a balanced tree which makes the execution speed to retrieve information fr
 
 ![B tree image](/images/blogs/b-tree.png)   
 
-### 5. Hashmap   
+### 5. HashMap   
 A hashmap is created by calculating a hash value for each element and using it to place it in the hashmap. When searching for an element, the hash value can be calculated and searched in constant time.   
 
 This structure can be used to get the fastest search result cause it can search in constant time (lots of collisions can make it O(n) which is very unlikely).   
@@ -226,12 +238,17 @@ This structure can be used to get the fastest search result cause it can search 
 Rehashing is done when the space in the map is not enough. To maintain an optimal hashmap the load factor(load factor = number of elements/total size of hashmap) is set to 0.75 which ensures minimum collisions.   
 
 #### Time complexity of Hash Table
-| Operation | Average Time Complexity |
-|:---------:|:-----------------------:|
-|Search     |O(1)                     |
-|Insert     |O(1)                     |
-|Delete     |O(1)                     |
-|Access     |N/A                      |   
+<Table data={{
+  headers: ['Operation', 'Average Time Complexity'],
+  rows: [
+    ['Search', 'O(1)'],
+    ['Insert', 'O(1)'],
+    ['Delete', 'O(1)'],
+    ['Access', 'N/A'],
+  ]
+}}/>
+
+<br/>
 
 Space complexity: `O(n)`   
 

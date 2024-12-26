@@ -32,14 +32,21 @@ WAF focuses on HTTP/HTTPS traffic and specializes in capturing application level
 
 In general, firewalls strive to secure the network perimeter and block unauthorized access, while WAF provides a much more granular security at web application logic level to block malicious requests to the web server.    
 
-| Aspect        | WAF                                                                                                                                 | Firewall                                                                   |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| OSI Layer     | Layer 7 (Application)                                                                                                               | Layer 3 and 4 (Network and Transport)                                      |
-| Focus         | HTTP/HTTPS requests and responses                                                                                                   | IP address, ports and protocols                                            |
-| Role          | Mitigate application level threats                                                                                                  | Block unauthorized access into network                                     |
-| Customization | Allows rule customization for various application logic                                                                             | Rules are static and allow only IP, port and protocol customization        |
-| Location      | Front of web server (reverse proxy), along with load balancers or edge of Content Delivery Network (CDN) in case of cloud-based WAF | Network perimeter                                                          |
-| Working       | Runs anomaly detection, heuristic or signature based algorithms                                                                     | Runs Proxy , packet-filtering and stateless/stateful inspection algorithms |
+<br/>
+
+<Table_nonalign data={{
+  headers: ['Aspect', 'WAF', 'Firewall'],
+  rows: [
+	['OSI Layer', 'Layer 7 (Application)', 'Layer 3 and 4 (Network and Transport)'],
+	['Focus', 'HTTP/HTTPS requests and responses', 'IP address, ports and protocols'],
+	['Role', 'Mitigate application level threats', 'Block unauthorized access into network'],
+	['Customization', 'Allows rule customization for various application logic', 'Rules are static and allow only IP, port and protocol customization'],
+	['Location', 'Front of web server (reverse proxy), along with load balancers or edge of Content Delivery Network (CDN) in case of cloud-based WAF', 'Network perimeter'],
+	['Working', 'Runs anomaly detection, heuristic or signature based algorithms', 'Runs Proxy , packet-filtering and stateless/stateful inspection algorithms'],
+  ]
+}}/>
+
+<br/>
 
 # Types of WAF
 Due to their wide range of filtering and protection mechanisms, WAFs can be categorized based on various parameters.

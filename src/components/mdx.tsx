@@ -17,18 +17,40 @@ type TableProps = {
 
 function Table({ data }: TableProps) {
     const headers = data.headers.map((header, index) => (
-        <th key={index}>{header}</th>
+        <th key={index} style={{border:"1px solid white", borderCollapse:"collapse", padding: "15px"}}>{header}</th>
     ));
     const rows = data.rows.map((row, index) => (
         <tr key={index}>
         {row.map((cell, cellIndex) => (
-            <td key={cellIndex}>{cell}</td>
+            <td key={cellIndex} style={{border:"1px solid white", borderCollapse:"collapse", padding: "15px"}}><span dangerouslySetInnerHTML={{ __html: cell }} /></td>
         ))}
         </tr>
     ));
 
     return (
-        <table>
+        <table style={{textAlign: 'center', border:"1px solid white", borderCollapse:"collapse"}}>
+            <thead>
+                <tr>{headers}</tr>
+            </thead>
+            <tbody>{rows}</tbody>
+        </table>
+    );
+}
+
+function Table_nonalign({ data }: TableProps) {
+    const headers = data.headers.map((header, index) => (
+        <th key={index} style={{border:"1px solid white", borderCollapse:"collapse", padding: "15px"}}>{header}</th>
+    ));
+    const rows = data.rows.map((row, index) => (
+        <tr key={index}>
+        {row.map((cell, cellIndex) => (
+            <td key={cellIndex} style={{border:"1px solid white", borderCollapse:"collapse", padding: "15px"}}><span dangerouslySetInnerHTML={{ __html: cell }} /></td>
+        ))}
+        </tr>
+    ));
+
+    return (
+        <table style={{border:"1px solid white", borderCollapse:"collapse"}}>
             <thead>
                 <tr>{headers}</tr>
             </thead>
@@ -133,6 +155,7 @@ const components = {
     img: createImage as any,
     a: CustomLink as any,
     Table,
+    Table_nonalign,
     CodeBlock
 };
 
