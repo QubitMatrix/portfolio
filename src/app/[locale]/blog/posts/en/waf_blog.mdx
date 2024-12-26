@@ -1,0 +1,324 @@
+---
+title: "An Introduction to Web Application Firewall (WAF)"
+publishedAt: "2024-12-23"
+image: "/images/gallery/thumbnail3.jpg"
+summary: "Web Application Firewall (WAF) is used to protect web applications from various application level attacks"
+tag: "WAF, Security, Firewall"
+---
+
+# Introduction
+**Web Application Firewall (WAF)** is used to protect web applications from various application level attacks like SQL Injection, Cross-Site-Scripting or Cross-Site-Request-Forgery.   
+
+Unlike traditional security measures that work at the lower layers of the `OSI model`, a WAF works at the **application layer** by filtering incoming requests and monitoring HTTP/HTTPS traffic between web application and internet.   
+
+A WAF is placed between the web application and the internet, it acts as a **reverse proxy** server which protects the web server from direct exposure. Any traffic has to pass through the WAF and it gets sent to the web server only after filtering. A set of rules known as `policies` are used to filter the traffic.  
+
+## Importance
+With the evolution of the internet and increased dependence on web application comes the necessity of a solution that can protect these applications. Web applications are one of the most common attack vectors due to their exposure to the internet and the lack of strong, consistent well-defined protection mechanisms.   
+
+Unlike other layers, the wide variation in web application architecture makes it harder to secure this layer of the OSI model.   
+
+Web applications are particularly vulnerable to SQL injection, Cross Site Scripting, Cross Site Request Forgery, Denial of Service and Command injection. Most of these attacks exploit flaws within the application logic or configuration.   
+WAF proactively secures the application from such attacks with its policies to filter out malicious traffic from legitimate traffic.
+
+## WAF vs Firewall
+_Now one might wonder, a WAF filters out legitimate traffic using some policies, isn't that exactly how a firewall works?_   
+
+While a firewall works at the lower levels like **network** and **transport** layers, a WAF works at the **application** layer.   
+
+This means that the traffic picked up by the firewall is very different compared to a WAF. A firewall typically manages the traffic based on IP addresses, ports and protocols and has corresponding rules and policies, it is not concerned with application level data.   
+
+WAF focuses on HTTP/HTTPS traffic and specializes in capturing application level data such as headers, URLs and cookies and mitigating web-specific threats arising through malicious payload.    
+
+In general, firewalls strive to secure the network perimeter and block unauthorized access, while WAF provides a much more granular security at web application logic level to block malicious requests to the web server.    
+
+| Aspect        | WAF                                                                                                                                 | Firewall                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| OSI Layer     | Layer 7 (Application)                                                                                                               | Layer 3 and 4 (Network and Transport)                                      |
+| Focus         | HTTP/HTTPS requests and responses                                                                                                   | IP address, ports and protocols                                            |
+| Role          | Mitigate application level threats                                                                                                  | Block unauthorized access into network                                     |
+| Customization | Allows rule customization for various application logic                                                                             | Rules are static and allow only IP, port and protocol customization        |
+| Location      | Front of web server (reverse proxy), along with load balancers or edge of Content Delivery Network (CDN) in case of cloud-based WAF | Network perimeter                                                          |
+| Working       | Runs anomaly detection, heuristic or signature based algorithms                                                                     | Runs Proxy , packet-filtering and stateless/stateful inspection algorithms |
+
+# Types of WAF
+Due to their wide range of filtering and protection mechanisms, WAFs can be categorized based on various parameters.
+
+![WAF Types](/images/blogs/waf_types.png)
+## Deployment Architecture
+The deployment architecture of a WAF refers to the way it is integrated into the organization's network and infrastructure. A WAF's effectiveness and scalability along with its performance is determined by the location and configuration.
+
+### Network-Based
+- **Location** - these WAFs are typically at the edge of the network perimeter acting as a gateway between external traffic and internal servers
+<br/>
+- **Working** - these WAFs analyse HTTP/HTTPS traffic and filter malicious traffic before it reaches the web server thus protecting the web application from cyber threats
+<br/>
+- **Advantages**
+	- It is hardware based, hence reduces latency and has high performance
+	- Its direct control over traffic ensures it has granular control with more customization options 
+<br/>
+- **Disadvantages**
+	- Initial investment in hardware and maintenance cost is high
+	- Less scalable compared to cloud based WAFs
+<br/>
+- **Uses** - On-premise applications, requiring complete control over security infrastructure
+
+<br/>
+
+### Host-Based
+- **Location** - installed directly on the server running the web application
+<br/>
+- **Working** - they work by directly monitoring and filtering the traffic reaching the server in real-time 
+<br/>
+- **Advantages**
+	- Deep integration with application due to rules specifically designed for the application
+	- Can be customized as per the traffic pattern or application needs
+<br/>
+- **Disadvantages** 
+	- It runs on the same host as the server and can impact performance since it uses the host's resources
+	- Complex to configure and maintain
+<br/>
+- **Uses** - Businesses with specific application logic and security requirements 
+
+<br/>
+
+### Cloud-Based
+- **Location** - these are hosted in the cloud, typically as a third-party service such as *AWS WAF*, *Cloudflare*. They are placed at the edge of the network or integrated with a CDN
+> Content Delivery Network (CDN) is a system of distributed servers and is a vital tool for optimizing the delivery of web content, ensuring faster access, enhanced security, and a better overall user experience.
+- **Working** - similar to network-based these inspect and filter traffic before reaching server, they are maintained and configured by the third party provider
+<br/>
+- **Advantages** 
+	- Easily scalable and can handle spikes in the traffic 
+	- Cost efficient 
+	- Maintained by cloud providers reducing complexity for internal teams
+<br/>
+- **Disadvantage**
+	- Customization depends on provider
+	- Organization has to rely on the provider for updates, maintenance or for troubleshooting 
+
+<br/>
+<br/>
+
+## Operation Modes
+The operation mode of a WAF determines how it interacts and handles the incoming traffic.
+
+### Inline Mode (Active)
+In this mode the WAF is placed along the traffic path to actively monitor and filter incoming requests before reaching the web server. Most WAFs run in this operation mode to ensure attacks are prevented proactively. However, it can block legitimate traffic causing false positives and also introduce latency if not optimized 
+
+### Monitoring Mode (Passive)
+The WAF only monitors and logs potential threats and does not block them in real-time. This is often used to test and fine-tune WAF rules before deployment.
+
+<br/>
+<br/>
+
+## Access Control
+Access control is a core functionality in WAFs and is used to regulate and restrict access to web applications based on predefined policies and rules. It can ensure that only authorized users or systems can interact with the server and application while preventing unauthorized or malicious actors from getting access.
+
+### Blocklist
+Consists of a list of malicious entities such as IP, geolocation, Autonomous System Numbers (ASN) user agents, referrers or URL that should be denied access to web server and the application
+
+### Allowlist
+Contains a list of allowed domains, users or IP that are trusted and safe. Some WAFs allow application level allowlist that can permit certain services (like API calls) to pass through the WAF.   
+
+Allowlists can help in reducing false positives by allowing legitimate traffic without any security rules. These lists can be static or dynamic (automatically updated based on patterns and threat intelligence)
+
+<br/>
+<br/>
+
+
+# Core Functions
+The core functions of a WAF mainly includes monitoring the HTTP/HTTPS traffic and analysing them for malicious requests and responses to filter malicious traffic from legitimate traffic. It protects the application against web attacks and secures the communication.   
+
+It can provide robust defences against the OWASP Top 10 vulnerabilities and bot-based attacks. It further reports and maintains detailed logs of all the traffic and events, thus helping in future forensic analysis and for checking compliance and security.
+
+## Monitoring HTTP/HTTPS Traffic
+WAF acts as a middle-man between the end-user and the web application. It can collect and inspect all the HTTP/HTTPS request and response traffic to detect any anomalies 
+
+### Traffic Inspection
+- Each request and response is analysed for anomalies and malicious payloads
+- It typically checks **inbound** traffic for abnormal activity, suspicious payloads and vulnerabilities and **outbound** traffic for any interception or masking and blocks sensitive data to prevent leakage.
+- It is done by inspection of headers, cookies, query strings and POST data
+
+### Behavioural Analysis
+- User behaviour is tracked to identify any suspicious or unusual activities to identify **rapid repeated requests** which are typically an indicator of Bot-attacks or Denial of Service attacks. Rapid repeated requests can be avoided with the use of CAPTCHA or rate-limiting mechanisms.
+
+### Protocol Validation
+- WAF monitors requests to check for  compliance with web application policies and protocol standards. It can block any malformed requests which can exploit any application vulnerability.
+
+### Encrypted Traffic Inspection
+- A WAF can even analyse encrypted HTTPS traffic by decrypting and analysing the content for threats and re-encrypting it before forwarding it. This ensures a secure monitoring without compromising data integrity.
+
+<br/>
+
+## Protection Against Web Attacks
+A WAF's main functionality is to protect web applications from attacks, while allowing legitimate traffic.    
+
+### Key protection mechanisms
+- **OWASP** - Protection is mainly ensured by designing it to identify the OWASP vulnerabilities like *SQLi*, *XSS*, *CSRF*, *SSRF*, *Insecure Deserialization* and *broken access control*. 
+- **Zero-Day** - WAF uses heuristic and behavioural analysis to block it from unknown threats which cannot be detected by signature algorithms.
+- **DDoS Protection** - WAF applies rate-limiting and filtering to ensure access to legitimate users during spikes.
+- **Bot Management** - WAF should not just block all bot activities, it should be able to distinguish malicious bot activities like scraping sensitive data or credential stuffing from beneficial bots like search engine crawlers. This is typically done through *bot fingerprinting* and *challenge-response*.
+- **SSL/TLS Inspection** - Encrypted payload often bypasses firewalls, a WAF can decrypt the traffic to analyse it for threats and re-encrypt it before forwarding, this ensures that secure communication doesn't lead to hidden attacks.
+- **Input Sanitization** - WAFs examine the user inputs to ensure they follow input format and sanitize it to avoid any malicious payloads from causing a SQL injection or command injection on the web application.
+
+<br/>
+<br/>
+
+## Logging
+Logging is a core feature of WAF and it provides detailed records of application activity and security events. They also help in analysing user behaviours while also detecting suspicious incidents and ensuring compliance.
+
+### Types of logging
+- **Traffic Logging** - logs incoming and outgoing traffic including IP, methods, headers and parameters along with URLs. It can also help in identifying user behaviour and application performance.
+- **Security Event Logging** - a WAF should record incidents that have any suspicious activity, incidents like blocked authorization, DDoS or Bot attacks, Client side attacks like SQLi or XSS along with the triggered rule or signature that classified it as malicious activity
+- **Forensic Analysis** - the logged details should be able to provide an audit trail for *post-incident* investigations, this would enable teams to identify the attack vectors and find the compromised data and the point of entry.
+
+
+<br/>
+<br/>
+
+> <hr/>
+
+<br/>
+
+# Working
+A web Application Firewall (WAF) operates by filtering analysing and blocking malicious web traffic. It uses advanced methods such as *rule-based filtering*, *behavioural analysis* and *OWASP Protection*. 
+
+### Rule Based Filtering
+A foundational technique used by WAFs is rule-based filtering. It relies on some custom predefined rules to analyse and evaluate inbound and outbound traffic and take actions based on the ruleset.   
+
+The ruleset contains some **static rules** which are predefined rules for known attacks such as SQLi which could have payloads like `SELECT * FROM <database> WHERE 1=1;` or XSS which uses payloads like `<script>malicious content </script>`.   
+
+The WAF can also be configured for some custom rules based on specific applications and user behaviour. Typical actions include *block* or *allow* traffic or *flagging* for inspection. Further it can make use of challenges (Eg: CAPTCHA) to make decisions and employ rate-limiting to protect the resources from being exploited.
+### Behavioural Analysis
+Unlike the rule-based filtering, this method focuses on identifying the underlying pattern and behaviour to capture a threat rather than using static rules. This is more effective when sophisticated attacks like zero-day threats that cannot be stopped by signature based algorithms and rule-based filtering is involved.   
+
+Behaviour analysis works by setting a *baseline* behaviour which defines the normal expected user behaviour to establish a traffic pattern. This baseline is used to detect anomalies and flag requests that deviate from expected behaviour. This could include high requests rates from single user IP which could be a sign of DDoS or a huge number of failed authentications that could indicate brute-force attempts.   
+
+More advanced behavioural analysis model WAFs use machine learning to train and refine the prediction to increase accuracy and reduce false positives. This can help in improved threat identification and perform better than the classical signature based detection.
+
+### OWASP Protection
+**OWASP Top 10** lists the most critical web application vulnerabilities and is updated regularly by the Open Web Application Security Project (OWASP). WAFs are designed such that they can identify and mitigate the vulnerabilities in this list, which helps them focus on main security flaws and mitigate threats arising due to those flaws.   
+
+The main protections involve SQLi which searches for malicious SQL queries in input or query fields. Filter scripts that may be added into webpages to prevent XSS and prevent CSRF with the tokens that can validate the user and their actions. WAFs can be configured to check for system misconfigurations or issues in application design. This could include permissive access controls or missing or malformed headers.
+
+<br/>
+<br/>
+
+<hr/>
+
+<br/>
+
+## Proposed WAF Architecture Model
+![WAF Architecture](/images/blogs/waf_model.png)
+
+### Key Components
+The WAF uses various components that are required to capture, analyse, detect, filter and secure web traffic to ensure protection for web applications 
+
+#### Traffic Inspection Engine
+**Purpose**   
+Analyse incoming and outbound traffic for malicious payloads and identify anomalies and exploits. Apply filters and also carry out behavioural analysis on the traffic. Combination of traffic collection and rule engine components   
+
+**Functions**     
+- Examine HTTP/HTTPS requests and responses 
+- Identify anomalies and exploits or policy violations
+- Apply filtering rules and behavioural analysis
+
+<br/>
+
+#### Signature Database
+**Purpose**   
+Stores all the predefined patterns of known attack methods   
+
+**Functions**      
+- Matches traffic against a database of attack signatures and OWASP vulnerabilities
+- Stores IP reputation through blacklists
+- Updates regularly to include new threat patterns
+
+<br/>
+
+#### Policy Engine
+**Purpose**  
+Allows administrators to define and enforce security policies for the WAF   
+
+**Functions**   
+- Customizes rules based on application needs (blocklist or allowlist)
+- Configure specific actions for detected threats which could include logging alerting or blocking it
+
+<br/>
+
+#### Behavioural Analysis Module
+**Purpose**     
+Detect threats through anomalies and unusual traffic patterns   
+
+**Functions**      
+- Establish a baseline behaviour to flag deviation 
+- Identify zero day attacks and unknown threats
+
+<br/>
+
+#### SSL/TLS Decryption and Encryption Module
+**Purpose**   
+Inspect encrypted HTTPS traffic for  malicious content and re-encrypt before forwarding   
+
+**Functions**   
+- Decrypt encrypted traffic and analyse
+- Re-encrypt traffic and forward to application 
+
+<br/>
+
+#### Logging and Reporting System
+**Purpose**   
+Record traffic details and security events for analysis   
+
+**Functions**   
+- Log blocked requests, flagged anomalies and all application activities
+- Generate detailed reports for security audits and forensic analysis
+
+<br/>
+
+#### Management Interface
+**Purpose**   
+Administrator use for configuration, monitoring and maintaining WAF   
+
+**Functions**   
+- Offer real-time traffic insights through dashboards
+- Allow policy updates and new rules creation
+
+<br/>
+
+#### Real-Time Alerting System
+**Purpose**   
+Notify admins of any security incidents   
+
+**Functions**   
+- Alerts sent for security events like attempt for exploits or policy violations
+- Include brief details on the nature and origin of the event
+
+<br/>
+
+#### Virtual Patching System
+**Purpose**   
+Offer temporary protection against found vulnerabilities until it is mitigated, without changing the application code   
+
+**Functions**   
+- Block exploitation attempts for known vulnerabilities
+- Sanitize input to avoid any client side attack 
+
+<br/>
+
+#### Load Balancing and Performance Optimization
+**Purpose**   
+Ensure that the application is available and performs optimally   
+
+**Functions**   
+- Distribute traffic evenly across servers to ensure performance and avoid overload
+
+<br/>
+
+## References
+1. https://www.sitewall.net/anatomy-of-a-waf-understanding-core-components-and-their-functions/
+2. https://coralogix.com/guides/web-application-firewall/waf-architecture-3-key-components-and-deployment-models/
+3. https://cloudairy.com/blog/waf-architecture-key-components-and-how-it-works-
+4. https://graylog.org/post/application-monitoring-with-a-web-application-firewall-waf-for-network-security/
+5. https://owasp.org/www-project-top-ten/
+6. https://developers.cloudflare.com/waf/

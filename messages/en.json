@@ -1,0 +1,85 @@
+{
+    "person": {
+        "role": "CSE Undergrad"
+    },
+    "home": {
+        "label": "Home",
+        "title": "{name}'s Portfolio",
+        "description": "Portfolio website showcasing my work as a {role}",
+        "headline": "Preethi M",
+        "subline": "Final year student pursuing B.Tech(CSE) at PES University. Passionate problem-solver and night-owl coder, deeply fascinated by cybersecurity and solving CTF challenges"
+    },
+    "about": {
+        "label": "About",
+        "title": "About me",
+        "description": "Meet {name}, {role} from {location}",
+        "intro": {
+            "title": "Introduction",
+            "description": "I am a final year CSE student and a highly motivated and results-oriented software engineer passionate about cybersecurity. I am interested in safeguarding digital assets and upholding data privacy. I thrive in collaborative environments and am adept at learning and adapting to new challenges"
+        },
+        "work": {
+            "title": "Work Experience",
+            "experiences": {
+                "UPL": {
+                    "timeframe": "June 2024 - July 2024",
+                    "role": "Data Engineering Intern",
+                    "achievements": "Development of a dynamic and interactive dashboard utilizing Qlik Sense to visualize data quality metrics.; Creation of custom expectation from scratch for checking date completeness; Support for comprehensive investigation of the records failing quality checks; Construction of a fully automated workflow capable of extracting metadata, processing data, and generating visualizations for the dashboard."
+                },
+                "PES": {
+                    "timeframe": "Jan 2024 - May 2024",
+                    "role": "Teaching Assistant for Design and Analysis of Algorithms",
+                    "achievements": "Developed an automation tool that significantly streamlined the evaluation process by eliminating time-consuming manual tasks like invoking APIs, session mark calculation and updation; Framed problem statements for individual topics and worksheets for each unit"
+                },
+                "PESU": {
+                    "timeframe": "Sep 2024 - Dec 2024",
+                    "role": "Teaching Assistant for Computer and Network Security",
+                    "achievements": "Assisted students in labs and a CTF hackathon; Framed questions, prepared notes and was incharge of lab evaluations"
+                }
+            }
+        },
+        "studies": {
+            "title": "Studies",
+            "institutions": {
+                "PES University": {
+                    "description": "Studied computer science engineering."
+                }
+            }
+        },
+        "technical": {
+            "title": "Technical skills",
+            "skills": {
+                "Programming Languages": {
+                    "description": "Python, C, C++, Java, JavaScript, Arduino"
+                },
+                "Web Development": {
+                    "description": "HTML, CSS, Javascript, NodeJS, ReactJS"
+                },
+                "Database": {
+                    "description": "MongoDB, MySQL"
+                },
+                "Web and Network Security": {
+                    "description": "Metasploit, NMAP, Postman, Burpsuite, Wireshark"
+                },
+                "Data Engineering": {
+                    "description": "Apache Airflow, Azure Databricks, Databricks SQL, PySpark, Python, Qlik Sense"
+                },
+                "Frequently Used Tools": {
+                    "description": "Github, Vim, VSCode, Bash, WSL, Obsidian"
+                }
+            }
+        }
+    },
+    "blog": {
+        "label": "Blog",
+        "title": "Writing about interested topics...",
+        "description": "Read what {name} has been up to recently"
+    },
+    "work": {
+        "label": "Projects",
+        "title": "My projects",
+        "description": "Projects by {name}"
+    },
+    "projectCard": {
+        "label": "Read Case Study"
+    }
+}
