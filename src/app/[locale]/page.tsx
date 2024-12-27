@@ -84,7 +84,7 @@ export default function Home(
 							translateY="4" fillWidth justifyContent="flex-start" paddingBottom="m">
 							<Heading
 								wrap="balance"
-								variant="display-strong-l">
+								variant="display-strong-s">
 								{home.headline}
 							</Heading>
 						</RevealFx>
@@ -93,7 +93,7 @@ export default function Home(
 							<Text
 								wrap="balance"
 								onBackground="neutral-weak"
-								variant="heading-default-xl">
+								variant="heading-default-xs">
 								{home.subline}
 							</Text>
 						</RevealFx>

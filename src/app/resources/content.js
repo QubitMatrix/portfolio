@@ -45,7 +45,7 @@ const home = {
     headline: <><a href="https://github.com/QubitMatrix" target="_blank">Preethi M</a></>,
     subline: <> <p>Final year student pursuing B.Tech(CSE) at PES University.</p> <br/>
     <p>Passionate problem-solver and night-owl coder, deeply fascinated by cybersecurity and solving CTF challenges</p> <br/>
-    <p>My favourite editor is VIM ❤️ and I cannot tolerate working with any editor that does not support vim bindings😅</p><br/>
+    <p>My favourite editor is VIM ❤️ and I strongly prefer working with editors that support vim bindings</p><br/>
     <u>My interests:</u><br/>
     <span>Computer Networks | Cybersecurity | Web Development</span></>
 }
@@ -192,5 +192,7 @@ const work = {
     // Create new project pages by adding a new .mdx file to app/blog/posts
     // All projects will be listed on the /home and /work routes
 }
+
+
 
 export { person, social, home, about, blog, work };
