@@ -26,7 +26,7 @@ export default function MasonryGrid() {
                 <SmartImage
                     key={index}
                     radius="m"
-                    aspectRatio={image.orientation === "horizontal" ? "16 / 9" : "9 / 16"}
+                    aspectRatio={image.orientation === "horizontal" ? "4 / 3" : image.orientation === "vertical" ? "9 / 13" : "9 / 9"}
                     src={image.src}
                     alt={image.alt}
                     className={styles.gridItem}

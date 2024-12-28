@@ -193,6 +193,108 @@ const work = {
     // All projects will be listed on the /home and /work routes
 }
 
+const gallery = {
+    label: 'Gallery',
+    title: 'My photo gallery',
+    description: `Artwork by ${person.name}`,
+    // Images from https://pexels.com
+    images: [
+        {
+            src: '/images/gallery/img-01.jpg',
+            alt: 'image',
+            orientation: 'vertical'
+        },
+        {
+            src: '/images/gallery/img-18.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-02.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-03.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-04.png',
+            alt: 'image',
+            orientation: 'square'
+        },
+        {
+            src: '/images/gallery/img-05.png',
+            alt: 'image',
+            orientation: 'vertical'
+        },
+        {
+            src: '/images/gallery/img-06.png',
+            alt: 'image',
+            orientation: 'vertical'
+        },
+        {
+            src: '/images/gallery/img-07.png',
+            alt: 'image',
+            orientation: 'square'
+        },
+        {
+            src: '/images/gallery/img-08.png',
+            alt: 'image',
+            orientation: 'vertical'
+        },
+        {
+            src: '/images/gallery/img-09.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-10.png',
+            alt: 'image',
+            orientation: 'vertical'
+        },
+        {
+            src: '/images/gallery/img-11.png',
+            alt: 'image',
+            orientation: 'square'
+        },
+        {
+            src: '/images/gallery/img-12.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-13.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-14.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-15.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-17.png',
+            alt: 'image',
+            orientation: 'horizontal'
+        },
+        {
+            src: '/images/gallery/img-19.png',
+            alt: 'image',
+            orientation: 'square'
+        },
+        // {
+        //     src: '/images/gallery/img-16.png',
+        //     alt: 'image',
+        //     orientation: 'vertical'
+        // },
+    ]
+}
 
-
-export { person, social, home, about, blog, work };
+export { person, social, home, about, blog, work, gallery };
