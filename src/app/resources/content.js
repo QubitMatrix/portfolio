@@ -174,6 +174,67 @@ const about = {
                 images: [ ]
             }
         ]
+    },
+    awards: {
+        display: true,
+        title: 'Awards',
+        awards: [
+            {
+                name: 'Prof. MR Doreswamy Scholarship',
+                timeframe: 'PES University, Jun 2024',
+                description: 'Awarded for academic performance amongst top 5% in 6th sem'
+            },
+            {
+                name: 'Prof. MR Doreswamy Scholarship',
+                timeframe: 'PES University, Jan 2024',
+                description: 'Awarded for academic performance amongst top 5% in 5th sem'
+            },
+            {
+                name: 'Prof. CNR Rao Scholarship',
+                timeframe: 'PES University, Jun 2023',
+                description: 'Awarded for academic performance amongst top 5% in 4th sem'
+            },
+            {
+                name: 'Prof. CNR Rao Scholarship',
+                timeframe: 'PES University, Jan 2023',
+                description: 'Awarded for academic performance amongst top 5% in 3rd sem'
+            },
+            {
+                name: 'Prof. CNR Rao Scholarship',
+                timeframe: 'PES University, Aug 2022',
+                description: 'Awarded for academic performance amongst top 2% in 2nd sem'
+            },
+            {
+                name: 'Prof. CNR Rao Scholarship',
+                timeframe: 'PES University, Apr 2022',
+                description: 'Awarded for academic performance amongst top 2% in 1st sem'
+            },
+            {
+                name: 'Principal\'s Award',
+                timeframe: 'SJBHS, Feb 2022',
+                description: 'Awarded for 3rd rank in ISC Science'
+            },
+            {
+                name: 'Rev. Fr. Claude D\'Souza Award',
+                timeframe: 'SJBHS, Feb 2022',
+                description: 'Awarded for securing the highest marks in Physics in ISC'
+            },
+            {
+                name: 'Rev. Fr. Hilario Fernandes Award',
+                timeframe: 'SJBHS, Feb 2022',
+                description: 'Awarded for securing the highest marks in Computer Science in ISC'
+            },
+            {
+                name: 'Amina Mathias Award',
+                timeframe: 'SHGHS, Jun 2019',
+                description: 'Awarded for the Best Student in Mathematics'
+            },
+            {
+                name: 'Certificate of Academic Distinction',
+                timeframe: 'SHGHS, Jun 2019',
+                description: 'Awarded for securing first in Computer Applications, Science and Mathematics'
+            }
+        ]
     }
 }
 

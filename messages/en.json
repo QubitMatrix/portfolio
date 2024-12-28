@@ -7,7 +7,7 @@
         "title": "{name}'s Portfolio",
         "description": "Portfolio website showcasing my work as a {role}",
         "headline": "Preethi M",
-        "subline": "Final year student pursuing B.Tech(CSE) at PES University. Passionate problem-solver and night-owl coder, deeply fascinated by cybersecurity and solving CTF challenges"
+        "subline": "Final year student pursuing B.Tech(CSE) at PES University. Passionate problem-solver and night-owl coder, deeply fascinated by cybersecurity and solving CTF challenges. My favourite editor is VIM ❤️ and I strongly prefer working with editors that support vim bindings"
     },
     "about": {
         "label": "About",
@@ -80,6 +80,6 @@
         "description": "Projects by {name}"
     },
     "projectCard": {
-        "label": "Read Case Study"
+        "label": "Read Details"
     }
 }

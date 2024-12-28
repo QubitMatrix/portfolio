@@ -70,6 +70,11 @@ export default function About(
             display: about.technical.display,
             items: about.technical.skills.map(skill => skill.title)
         },
+        {
+            title: about.awards.title,
+            display: about.awards.display,
+            items: about.awards.awards.map(award => award.name)
+        }
     ]
     return (
         <Flex
@@ -194,7 +199,7 @@ export default function About(
                             <Heading
                                 as="h2"
                                 id={about.work.title}
-                                variant="display-strong-s"
+                                variant="display-strong-xs"
                                 marginBottom="m">
                                 {about.work.title}
                             </Heading>
@@ -243,6 +248,7 @@ export default function About(
                                     </Flex>
                                 ))}
                             </Flex>
+                            <br/>
                         </>
                     )}
 
@@ -251,7 +257,7 @@ export default function About(
                             <Heading
                                 as="h2"
                                 id={about.studies.title}
-                                variant="display-strong-s"
+                                variant="display-strong-xs"
                                 marginBottom="m">
                                 {about.studies.title}
                             </Heading>
@@ -284,7 +290,7 @@ export default function About(
                             <Heading
                                 as="h2"
                                 id={about.competitions.title}
-                                variant="display-strong-s"
+                                variant="display-strong-xs"
                                 marginBottom="m">
                                 {about.competitions.title}
                             </Heading>
@@ -309,6 +315,7 @@ export default function About(
                                     </Flex>
                                 ))}
                             </Flex>
+                            <br/>
                         </>
                     )}
 
@@ -318,12 +325,12 @@ export default function About(
                             <Heading
                                 as="h2"
                                 id={about.technical.title}
-                                variant="display-strong-s" marginBottom="40">
+                                variant="display-strong-xs" marginBottom="40">
                                 {about.technical.title}
                             </Heading>
                             <Flex
                                 direction="column"
-                                fillWidth gap="l">
+                                fillWidth gap="s">
                                 {about.technical.skills.map((skill, index) => (
                                     <Flex
                                         key={`${skill}-${index}`}
@@ -341,8 +348,57 @@ export default function About(
                                     </Flex>
                                 ))}
                             </Flex>
+                            <br/>
+                            <br/>
+                            <br/>
                         </>
                     )}
+
+                    { about.awards.display && (
+                        <>
+                            <Heading
+                                as="h2"
+                                id={about.awards.title}
+                                variant="display-strong-xs"
+                                marginBottom="m">
+                                {about.awards.title}
+                            </Heading>
+                            <Flex
+                                direction="column"
+                                fillWidth gap="m" marginBottom="40">
+                                {about.awards.awards.map((award, index) => (
+                                    <Flex
+                                        key={`${award.name}-${award.association}-${index}`}
+                                        fillWidth
+                                        direction="column">
+                                        <Flex
+                                            fillWidth
+                                            justifyContent="space-between"
+                                            alignItems="flex-end"
+                                            marginBottom="4">
+                                            <Text
+                                                id={award.name}
+                                                variant="heading-strong-l">
+                                                {award.name}
+                                            </Text>
+                                            <Text
+                                                variant="heading-default-xs"
+                                                onBackground="neutral-weak">
+                                                {award.timeframe}
+                                            </Text>
+                                        </Flex>
+                                        <Text
+                                            variant="body-default-s"
+                                            onBackground="brand-weak"
+                                            marginBottom="m">
+                                            {award.description}
+                                        </Text>
+                                    </Flex>
+                                ))}
+                            </Flex>
+                        </>
+                    )}
+
                 </Flex>
             </Flex>
         </Flex>
