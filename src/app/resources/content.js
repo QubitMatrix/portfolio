@@ -71,6 +71,15 @@ const about = {
         title: 'Work Experience',
         experiences: [
             {
+                company: 'IBM India Software Labs',
+                timeframe: 'Jan 2025 - Present',
+                role: 'SDE Intern - Db2 for z/OS',
+                achievements: [
+                ],
+                images: [ // optional: leave the array empty if you don't want to display images
+                ]
+            },
+            {
                 company: 'UPL',
                 timeframe: 'June 2024 - July 2024',
                 role: 'Data Engineering Intern',
