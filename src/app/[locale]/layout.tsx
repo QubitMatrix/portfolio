@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/next';
+
 import "@/once-ui/styles/index.scss";
 import "@/once-ui/tokens/index.scss";
 
@@ -128,6 +130,7 @@ export default async function RootLayout({
 							fillWidth minHeight="0">
 							<RouteGuard>
 								{children}
+								<Analytics />
 							</RouteGuard>
 						</Flex>
 					</Flex>
