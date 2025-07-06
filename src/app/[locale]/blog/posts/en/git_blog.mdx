@@ -1,20 +1,25 @@
 ---
-title: "An Introduction to Git"
+title: "Git Decoded (Part 1): Version Control, Workflow, Branches, Merges & Clean History"
 publishedAt: "2025-07-06"
-image: "/images/gallery/thumbnail3.jpg"
-summary: "Web Application Firewall (WAF) is used to protect web applications from various application level attacks"
-tag: "WAF, Security, Firewall"
+image: "/images/gallery/thumbnail4.png"
+summary: "This guide provides a beginner-friendly journey through Git, covering its role as a Version Control System, its fundamental workflow and DAG structure, and mastering core concepts like branches, merges, and rebasing for clean code management."
+tag: "Git, VCS, Branch, Merge, Rebase"
 ---
 
+Ready to learn Git? This guide cuts through the tech talk. We'll cover what Git is – a powerful **Version Control System (VCS)** and a must-have for developers. You'll learn essential commands like `git init`, `add`, and `commit`, and understand Git's core **workflow** (how your changes move from your computer to the project's history).   
+We'll even look at how Git cleverly sees your project as a **Directed Acyclic Graph (DAG)**. Then, we'll dive into the heart of Git: branches and merges. You'll learn how to manage different code versions, handle tricky conflicts, and use rebasing to keep your project history super clean. No jargon, just the basics you need to get started!
+<br/>
+![](/images/blogs/red_blue_pill.png)
+<br/>
 ## What in the Git is Going On?
-Ever found yourself in a digital mess like this?
+Ever found yourself in a digital mess like this?   
 - Files named `document_final.docx`, `document_final_v2.docx`, and then the truly confusing `document_final_REALLY_final.docx`?
 - Working with a team, only to realize your changes just overwrote someone else's hard work (or vice-versa)?
 - Wish you could hit a magic "undo" button for your entire project, going back to a perfectly working version from last week?   
 
 If any of that resonates, then welcome! You're about to meet your new best friend in the world of project management and software development: **Git**, and the powerful concept of **Version Control Systems (VCS)**.
 
-### So, What Exactly Is 'Version Control Systems'
+### So, What Exactly Is 'Version Control Systems'?
 At its heart, version control is like having a superpower for your project's history. Imagine taking a precise snapshot of your entire project files every time you make a significant change. Then, being able to instantly jump back to _any_ of those past snapshots if something goes wrong, or just to see how things evolved.   
 That's version control! It's a system that records changes to a file or set of files over time, allowing you to recall specific versions later.   
 
@@ -26,41 +31,44 @@ Before tools like Git, managing code (or any complex project with multiple peopl
 
 And that's where **Git** comes in! It's the most popular and powerful distributed version control system out there, designed to make all of the above not just possible, but easy and efficient.   
 Whether you're a budding developer, a content creator, or managing any project with evolving files, understanding Git is a game-changer.    
-Let's dive deeper into how Git works and the various features that it offers!!
+
+*Let's dive deeper into how Git works and the various features that it offers!!*
 
 ## The Three Musketeers of Git: Understanding the Workflow
-Before proceeding ensure Git is installed on your system, `git --version` can be used to confirm the installation. Next set up the git environment with the username, email, line-ending and other configurations that are needed using the `git config` commands.   
+Before proceeding, ensure Git is installed on your system, `git --version` can be used to confirm the installation. Next set up the Git environment with the username, email, line-ending and other configurations that are needed by using the `git config` commands.   
 
 Git comprises of various concepts and commands but all of them revolve around the Three-Stage Model.   
 1. **Working Directory**   
 	- This can be imagined as the active space where all your files are stored and every change that is made is reflected here. 
 	- It is simply the active version of your files as you see it on your file system. 
 	- Git is aware of the files' existence and can identify if it is a new file that is added or a file that has been modified, but cannot track the changes when it is in the working directory.
+<br/>
 2. **Staging Area**   
-	- This can be thought of as the space where you throw in all the files that are changed and ready to be saved into git. 
+	- This can be thought of as the space where you throw in all the files that are changed and ready to be saved into Git. 
 	- It is like a temporary buffer zone in which we can prepare the next snapshot as a set of files before saving it as a commit. 
 	- Any changes made after staging a file will not be saved in the current snapshot.
 	- `git add <filename>` can be used to move a file from working directory into the staging area -> regex can also be used for the filename
-	- If you have any file like config files that need not be committed, it can be ignored from git permanently by adding it to the `.gitignore` file.
+	- If you have any file like config files that need not be committed, it can be ignored from Git permanently by adding it to the `.gitignore` file.
 	- This area is important as it allows the user to review the changes made and allows to commit small, independent changes.
 	- `git status` command can be used to get report about the state of files that are already in the staging area (ready to commit), the ones that are yet to be staged (changed in working directory) and the ones that Git does not know exists yet (untracked files).
+<br/>
 3. **Local Repository**   
 	- This is the main part of your Git project on your machine. It holds the entire project's historical data
 	- `git commit -m <message>` command is used to capture all the files in the staging area as a snapshot, this snapshot will be saved as a commit
-	- The hidden `.git` folder in your project folder stores all the git commits, branches, tags and all the git configurations -> `git init` command can be used to create the `.git` folder and define your project folder as a git controlled folder
-
+	- The hidden `.git` folder in your project folder stores all the Git commits, branches, tags and all the Git configurations -> `git init` command can be used to create the `.git` folder and define your project folder as a Git controlled folder
+<br/>
 #### Commit
-We spoke a lot about `commit` in the previous section, but what exactly is a commit in git?   
-You can think of a `commit` in Git as much more than just hitting "save". It's like taking a **high-fidelity snapshot** of your _entire project_ at a very specific moment in time. It is a building block in a long chain, these blocks contain all the details about the changes made in the existing files, addition of files or deletion of files from previous commits.   
+We spoke a lot about `commit` in the previous section, but what exactly is a commit in Git?   
+You can think of a `commit` in Git as much more than just hitting "save". It's like taking a **high-fidelity snapshot** of your _entire project_ at a very specific moment in time. It is a building block in a long chain, these blocks contain all the details about the changes made in the existing files, addition of files or deletion of files from previous commits.    
 Each commit is a unique block with its own unique timestamp and a immutable record of your entire project at that moment of time that the snapshot was captured. These commits have more than just the files at that point, it contains of various metadata   
 - **A Unique Identifier (Hash):** Every commit gets a unique, long string of characters (like `f7b3a9c...`) called a **SHA-1 hash**. This is like its digital fingerprint, allowing Git to instantly identify and access that exact commit.
 - **Author information**
 - **Timestamp**
 - **Commit Message**   
-
-### History
+<br/>
+#### History
 When you make a series of commits, Git links them together, creating a chronological sequence. This long sequential chain that these commits form is called the *git history* and the `git log` command can be used to get the list of commits starting with the most recent ones.
-
+<hr/>
 ## Your First Git Commands: A Quick Walkthrough
 1. **Initialising Git and adding new files:**
 	![](/images/blogs/git_init.png)
@@ -70,14 +78,17 @@ When you make a series of commits, Git links them together, creating a chronolog
 <br/>
 2. **Creating First Commit:**   
 	![](/images/blogs/git_log.png)
+	> All Git commands can be appended with the `--help` suffix to get details about the various options that the command can use.   
+	
 	> In some shells like ZSH, when commands like `git log` are executed the `less` command uses some options and sends it to a pager on new screen, to get the output on the same terminal use `unset LESS`
 
 
 ## The Blueprint of Progress: Visualizing Git's DAG Structure
 We've talked about commits as project snapshots. But how does it manage to tell the complex story of your project, including all those times you've branched off, worked on new features, and then merged them back in?
 
-The secret is Git's underlying data structure: a **Directed Acyclic Graph (DAG)**   
-Version Control Systems (VCS) might look like a *list* of changes one after the other, but under the hood Git actually is not just a *list* but a *family tree* of interconnected events. Each commit adds a new node into this intricate network.
+*The secret is Git's underlying data structure: a **Directed Acyclic Graph (DAG)*** 
+
+Version Control Systems (VCS) might look like a **list** of changes one after the other, but under the hood Git actually is not just a **list** but a **family tree** of interconnected events. Each commit adds a new **node** into this intricate network.
 
 #### Understanding a DAG in the context of Git
 - **Graph:** Each `commit` is a **node** (a point) in this network. The connections between them (the **edges**) are pointers from a newer commit back to its immediate parent commit(s).
@@ -90,3 +101,285 @@ Every time you execute `git commit`, Git performs a few magical steps:
 2. It creates a new commit object (our "node").
 3. This new commit object stores a pointer to the **parent commit** – the commit that represents the state _before_ these new changes.
 4. If you're merging two branches, the new merge commit will actually store _two_ parent pointers, one for each branch that was merged. This is how the "tree" can have multiple "parents" converging!
+
+## Diverge and Converge: Navigating Git Branches and Merging
+So far we have been talking about how Git works when a single person is working on a single chronological line of development. But what happens when:
+- You have a stable codebase and you want to try working on an experimental feature that you are not sure will work.
+- You and your teammate want to work on different features built around the same files but don't want to overwrite each other's works
+- There is a critical bug in production and you want to fix it without interrupting the ongoing development work. 
+
+This is where **Git Branches** come in – they are the lifeblood of collaborative, efficient, and safe software development!
+
+
+#### Branch
+A branch in Git is simply a **lightweight, movable pointer** to a commit.   
+When Git is initialized, it starts with a branch named `main` (traditionally used `master`) and it points to your first commit, when you add commits in this `main` branch this `main` pointer keeps moving to the newer commits.   
+The real use of branch comes when you are working in a team, or even working by yourself on multiple features. 
+- **Isolation:** Safely test new features without affecting your main codebase.
+- **Parallel Development:** Allows multiple team members to work simultaneously, speeding up development.
+- **Streamlined Feature Management:** Organizes work into clear, distinct units (features, bug fixes).
+- **Facilitating Code Review & Integration:** Simplifies code reviews and integration via  **Pull Requests (PR)** and **Merge Requests** on platforms like GitHub. (More on this later!!) .
+- **Rapid Bug Fixes (Hotfixes):** **Hotfix branches** are for urgent bugs in live applications. You create one from your stable `main`, fix the issue, and deploy it immediately, without interrupting ongoing development.
+
+#### Visualize The Flow
+As we already learnt from the DAG Structure, each commit is a node and each branch is a pointer to the commit.   
+<br/>
+1. Create a new branch and commit files from it, checkout to main and create more commits from it   
+![](/images/blogs/git_branch.png)
+<br/>
+2. Merge the `feature1` branch into `main`   
+![](/images/blogs/git_merge.png)
+<br/>
+3. Git Graph
+![](/images/blogs/git_graph.png)
+> 1. When a new branch `feature/feature1` is created from the `main` branch, the new branch is a pointer to the last commit in the `main` branch
+> 2. When new commits are added in this branch, the new pointer keeps moving forward while the `main` branch pointer stays or moves independently when changes are made on `main`. This creates a divergent path in the project's history
+> 3. When you finish working on that branch and `merge` it back into the `main` branch, both the pointers now point to the last commit in the new branch, thus converging the divergent paths.
+
+#### Branching From Branches: Diving Deeper with Git Sub-Branches
+In Git, there's no special "sub-branch" type. A sub-branch is simply a **branch that you create from an existing _feature_ (or development) branch**, rather than directly from your stable `main` branch. It's a strategic way to add another layer of organization.
+![](/images/blogs/git_subbranch.png)
+
+### Mastering Git Branches: Your Core Commands
+You've grasped "why" branches are essential for isolation and collaboration. Now, let's learn the practical "how." These commands are surprisingly simple, and once you get the hang of them, you'll feel like a Git wizard!   
+
+#### HEAD   
+In Git, `HEAD` is a special pointer that indicates **where you are currently working** in your repository. It points to the _tip_ (the most recent commit) of the branch you are currently on. When you commit, the branch `HEAD` moves forward with your new commit.
+
+#### Listing Branches
+The `git branch` command can be used to list the local branches, the current branch will be listed with an asterisk `*`. `git branch -a` will show the branches in both the local and remote listing
+
+#### Creating Branch
+The `git branch <name>` can be used to create a new branch. This will create a new pointer which points to the last commit of the current branch from where the command is run.   
+> This command will only create the branch but not switch into that branch, to create and move into the branch refer to the next section
+<br/>
+#### Switching Branch
+This is the process of moving the `HEAD` from the current branch to another branch.   
+<br/>
+**Git Checkout** - It is the older command and is capable of doing a lot of things, ambiguous and prone to errors
+- Switch branch - `git checkout <name>`
+- Create and switch branch - `git checkout -b <name>`
+- Restore files to discard working changes and restore to last commit or a specific commit - `git checkout -- <file-path>`, `git checkout <commit-hash> -- <file_path>`
+- Checkout specific commits or tags - `git checkout <commit-hash>`, `git checkout <tag-name>` -> this will lead to a 'detached HEAD' state
+<br/>
+**Git Switch** (recommended) - Works only for branch related functions, precise and safe to use
+- Switch branch - `git switch <name>`
+- Create and switch - `git switch -c <name>`
+- Switch to previous branch - `git switch -`
+
+> Restore cannot be combined in a `switch` command and instead a `restore` command has to be used   
+> `git restore <file-path>` restores to latest commit on the current branch (HEAD) and `git restore --source=<commit-hash> <file-path>` to restore files to that of a commit
+<br/>
+##### Detached HEAD
+We just spoke about this **detached HEAD** state when we spoke about checkout to a commit instead of a branch. In normal scenarios `HEAD` points to a branch name which in turn points to a commit. Now when a new commit is added the branch pointer moves and the HEAD moves along with it. This is a `normal` or `attached` HEAD.   
+A `detached HEAD` state occurs when the HEAD points to a commit directly instead of pointing to a branch name. In this case since it is not attached with a branch, the commits on the branch continue to move but the HEAD is detached and independent.   
+<br/>
+There are various ways to reach this detached state:
+1. `git checkout <commit-hash>`
+2. `git checkout <tag>`
+3. `git switch --detach <commit-hash>` - might ask to create new branch   
+<br/>
+**The DANGER of a Detached HEAD (Why It Matters!)**   
+The biggest risk with a detached HEAD is **losing your work**.   
+![](/images/blogs/detached_HEAD.png)
+If you make new commits while in a detached HEAD state, those commits **are not part of any branch**. They exist only as a sequence of commits directly following the detached `HEAD`. Eventually at some point if you go back to some branch using `checkout` or `switch` commands the HEAD will move over to that branch. The other commits that were made on the detached HEAD are now unreachable and **Git's Garbage Collector** will clean them out. Unless a new branch is created to hold onto those commits, the work will be lost forever.
+<br/>
+**Then why on earth do we have the detached HEAD concept?**   
+Despite the danger, entering a detached HEAD state can be very useful for specific tasks:
+1. **Inspecting past code:** The times when we go back to some version of code and copy them into the folder to test how it worked is gone. All we have to do now is `checkout` into that commit and it moves the HEAD to that commit and hence becomes your current active working codebase.
+<br/>
+2. **Debugging:** Advanced debugging tools like `git bisect` frequently use detached HEAD to jump between commits to find where a bug was introduced.
+<br/>
+3. **Creating a New Branch from an Old Point:** You can jump to an old commit and then immediately create a new branch from there to start new development that diverges from an earlier point in time.
+<br/> <br/>
+**I am sure there are a lot of paranoid people like me who are now wondering "How do I make sure my code changes after detach is saved?"**   
+1. **No new commit:** if you went into the detached state and made no commits you can just switch back into your working branch and continue working, the HEAD will re-attach
+<br/>
+2. **Made new commits:** create a new branch using `git checkout -b <name>` or `git switch -c <name>`, now the detached HEAD and also new branch pointer will point to the latest commit. Even if HEAD goes back to another branch the new branch will be able to point to the new commit, and since the commit can point back to it's parent commit the entire history is restored.
+<br/>
+3. **Made commits and forgot to save:**  
+	![](/images/blogs/git_reflog.png)
+	> Git shows a warning when detached HEAD has further commits that are not connected to any branch, you can get the commit hash from here and create a new branch for it.   
+	> If by any chance that output did not show or is lost, the `git reflog` command will show the list of all commits that the HEAD has been through, use the hash from here to create new branch
+
+#### Deleting Branch
+1. Safe Delete: `git branch -d <name>` can be used to delete a branch only if it is safe to do so, that is if the commits in the branch is already merged to another branch.
+2. Force Delete: `git branch -D <name>` can be used when the branch has unmerged commits but you are still sure that you want to delete it and don't need those changes or commits. **Use this with caution as the action is irreversible**
+<br/> <br/>
+<hr/>
+### Merging Branch
+**Git merging** is the process of integrating changes from one branch into another. It combines divergent lines of development into a single, unified branch history. When you merge, Git takes the content of the source branch and applies it to the target branch.   
+
+#### Merge in Action  
+First switch over to the branch that you want to merge into and this will be known as the `target branch` (if bringing a feature into main, main becomes the target branch) and the branch that is merged from is called the `source branch`(feature branch).
+Next run the command `git branch <branchname>`, this will merge changes from the `<branchname>` into the current branch.
+
+If you are someone who has worked with basic branches before, you would have noticed sometimes a merge works directly and shows fast-forwarded. But sometimes asks you for a new merge commit message and shows merge by 'ORT' strategy. Let's try demystifying the different types of merging a branch.
+
+#### Fast-Forward Merges
+- It is the simplest type of a merge and happens under a very specific condition.
+- The target branch should not have diverged or moved forward after the source branch was created, in other words there is no new commit in the target branch that is not part of the source branch
+- Example: if target is `main` and source is `feature1`, after feature1 was created main should not have had any commits.
+- When this happens, Git will not create a new 'merge commit', instead it will just `fast-forward` the current branch pointer (main) to the source branch pointer (feature1)
+- Ensures **clean, linear history**: the project history remains a straight line. There's no extra "merge commit" node in the graph.
+- Git can be forced to create a merge commit even if fast-forward is possible using `git merge --no-ff <branch>`
+<br/>
+#### Merge Strategies
+- When histories are linear, Git can perform a `Fast-Forward` merge, but what if the target branch has moved ahead while the source branch was in development?
+- Git intelligently combines the divergent lines of development using `Git merge strategies`. It is an algorithm that Git uses to combines changes from different histories. Strategy can be chosen using `git merge -s <strategy_name> <branchname>`
+- There are various merge strategies like:
+	- Recursive
+	- Octopus
+	- Ours
+	- Theirs
+	- Resolve
+	- Subtree
+	- ORT (default)
+<br/>
+**ORT (Orthogonal Recursive Three-way)**   
+This is the **default merge strategy** in modern Git (since Git 2.30), replacing the older `recursive` strategy. It performs a **three-way merge**. Git looks at the tip of your current branch, the tip of the branch you're merging, and their **common ancestor** (the point where their histories diverged). It then calculates the changes introduced in each branch since the common ancestor and attempts to combine them.   
+If changes overlap in a way Git can't resolve automatically, you get a merge conflict. Highly intelligent, robust, and generally results in the fewest manual conflicts for typical branch merges. It's good at detecting renames and complex history scenarios.
+
+**Octopus**   
+Merges two+ branches simultaneously; refuses complex conflicts. Good for bundling non-conflicting topic branches.
+
+**Recursive**   
+Older default for merging two divergent branches (three-way merge). Largely superseded by `ort` in modern Git due to `ort`'s improvements.
+
+**Resolve**   
+An older, simpler three-way merge strategy; less capable and rarely used now, mostly for legacy understanding.
+
+**Ours**   
+Merges, but favours **only** the current branch's content, discarding all incoming changes while still creating a merge commit.
+
+**Theirs**   
+Merges, but favours **only** the incoming branch's content, discarding all current branch changes while creating a merge commit.
+
+**Subtree**   
+Specialized for merging two trees where one is a subdirectory of the other, useful for managing nested project parts.
+<br/>
+### The Merge Crossroads: When Git Needs Your Help
+Git's `merge` command is incredibly powerful, usually combining your divergent histories seamlessly. But even Git isn't a mind-reader. It can't magically infer developer intent.
+
+##### Why Do Conflicts Happen? The Core of the Problem
+A **merge conflict** arises precisely when two (or more) branches have made conflicting modifications to the exact same lines of code, or to closely related sections within the same file. Git, in its three-way merge process, compares the common ancestor of the two branches to each branch's tip. If it sees that a line present in the common ancestor was changed one way on `your-branch` and a _different_ way on `their-branch`, it simply doesn't know which version is the "correct" one.
+<br/>
+**Hands On:**   
+![](/images/blogs/git_merge_conflict.png)Let's take an example scenario on when this can happen. Consider a python code file `sales.py` which includes the following line:  
+- Common Ancestor Branch (main): `product='phone'`
+- Feature_1 branch: `product='laptop'`
+- Feature_2 branch: `product='tv'`   
+<br/>
+When the feature branches are merged in main, Git will not know which version of the product variable to store. This is when it raises a `merge conflict` and requires manual intervention.   
+Modern editors like VSCode offer merge conflict editors that show a side-by-side comparison and has options to choose from 'accept current change', 'accept incoming change', 'accept both change'. Alternatively it can be resolved by manually editing the file to remove the markers and enter the final version of it.
+
+##### What Does a Conflict Look Like? The Markers
+When a merge conflict occurs, Git doesn't just stop; it leaves the conflicting files in your Working Directory with special **conflict markers**. These markers show you exactly where the disagreement is.
+<CodeBlock className="my-24" compact codeInstances={[ { code: 'var1=input()\n<<<<<<< HEAD\nproduct = "laptop"\n=======\nproduct = "tv"\n>>>>>>> feature_2\nprint(product)', label: 'Next.js', language: 'python' }, ]} copyButton />
+- In this, the lines between `<<<<<<< HEAD` and `=======` signify the existing codes (in this case as that from feature_1)
+- The lines between `=======` and `>>>>>>> feature_2` signify the codes from the incoming branch (in this case feature_2)
+- Since 'phone' was changed to 'laptop' by feature_1 and changed to 'tv' by feature_2, it does not know which line to take and requires manual intervention.
+<br/>
+### Rebasing vs. Merging: Two Paths to Unify Your Code (and the Power of Rewriting History)
+You've mastered branches and the `git merge` command for bringing separate lines of development back together. Merging is Git's default, and for good reason: it's safe and preserves your history exactly as it happened.   
+But Git offers another powerful way to integrate changes: **rebasing**.   
+While both achieve a similar end goal (combining code), their approach to your project's history couldn't be more different.   
+
+#### Merging
+Merging is about combining the histories of two divergent branches into a single new merge commit.   
+
+**How it Works:**   
+When you merge feature into main, Git identifies the common ancestor of both branches. It then combines the changes from both branches, creating a new merge commit. This merge commit has two parent commits: the tip of main and the tip of feature.   
+
+**Key Characteristics & Implications:**
+- **Preserves History:** Non-destructive; explicitly records all branch integrations.
+- **Safety:** Always safe for shared/public branches as it doesn't rewrite history.
+- **History View:** Can result in a "noisy" or complex history graph.
+<br/>
+**When to Use:**
+- On **public or shared branches** where history immutability is critical.
+- When you need an **accurate, immutable record** of all development events.
+- When you prefer a **complete, even if less linear, history** representation.
+<br/>
+#### Rebasing
+Rebasing is about rewriting history to make it appear as if your feature branch's commits were created _directly on top_ of the target branch's latest commit.
+
+**How it Works:**   
+When you rebase your `feature` branch onto `main`, Git takes all the commits from your `feature` branch, sets them aside temporarily, updates your `feature` branch to the latest state of `main`, and then _replays_ (re-applies) your feature branch's commits one by one on top of `main`'s current tip.
+
+**Key Characteristics & Implications:**
+- **Rewrites History:** Rebasing alters commit IDs, creating a new, linear history that appears as if development was never branched.
+- **Clean, Linear History:** The resulting history is very clean and easy to follow, resembling a fast-forward merge. It avoids the extra merge commits.
+- **Safety:** **DANGER - Never rebase shared/pushed branches!** Rewriting history causes major issues for collaborators.
+<br/>
+**When to Use:**
+- On **private, local feature branches**.
+- When a linear and tidy `main` branch history is desired.
+- Also for advanced history clean up like squashing or reordering commits (More about this in the next section).
+- When you want to **integrate upstream changes** (from `main`) into your feature branch _before_ merging, to ensure your feature branch is up-to-date and to resolve potential conflicts early and cleanly.
+<br/>
+<hr/>
+#### Merge And Rebase Walkthrough
+**Merging**   
+![](/images/blogs/git_merge_test.png)
+![](/images/blogs/git_merge_test_2.png)
+> In merge, the individual commits of feature branch are included along with the commits of main through a separate merge commit. On verifying the hash values we can understand that the same commit is merged into the main branch by aligning the commits chronologically.
+<br/>
+**Rebase**   
+![](/images/blogs/git_rebase_test.png)
+> **Steps:**
+> 1. Checkout (or switch) into rebase_test
+> 2. Add few commits
+> 3. Checkout to main
+> 4. Add few commits
+> 5. Checkout to rebase_test
+> 6. `git rebase main` - this will only rebase in the rebase_test branch and main will not have any commits from the rebase_test branch
+> 7. Checkout to main
+> 8. `git merge rebase_test` - in most cases this will result in a fast-forward merge and result in linear history
+
+![](/images/blogs/git_rebase_test_2.png)
+> Comparing this to our merge example, if we apply the same sequence of commits from our feature branch, but choose to **rebase** it onto `main` instead, the resulting history reveals two crucial differences. You'll notice that the original commit hash values from the feature branch are no longer present in the log; Git has created entirely **new commits with new hash IDs** as it replayed them onto `main`.   
+> This process also reorders the commits to present a perfectly **linear, chronological history** on top of `main`'s latest changes, effectively making it appear as though the feature branch's work was done sequentially after `main`'s development, even if their original timestamps were concurrent.
+
+#### Interactive Rebase
+`git rebase -i` is Git's powerful way to **rewrite and clean up your commit history**. It opens an editor, letting you meticulously control individual commits.   
+This tool is primarily for tidying up your **private, local feature branches** before they're merged or submitted as a Pull Request. Use it to:
+- Squash many small, iterative commits into logical units.
+- Reorder commits for a more coherent story.
+- Fix typos or improve past commit messages.
+- Remove unwanted commits.
+<br/>
+**IMPORTANT**   
+Interactive rebase **rewrites history** (changing commit IDs). **NEVER use it on branches that have been pushed to a shared remote** and potentially pulled by others. Doing so causes major conflicts and data loss for collaborators. Use it exclusively on your unshared, local work.
+
+##### Squashing
+You're familiar with creating commits to save your work iteratively. Sometimes, a feature's development involves many small, incremental commits. While useful during development, these granular commits might not be necessary (or desirable) in the final, clean history of your `main` branch.   
+*This is where **Squashing** comes in.*   
+
+Squashing in Git is the process of combining multiple existing commits into a single, more cohesive commit. Instead of having several small, potentially uninformative commits, you condense them into one larger commit that represents a complete, logical unit of work.   
+
+Squashing is primarily performed using **interactive rebase** (`git rebase -i`), which allows you to modify commits in various ways, including combining them.   
+Decide how many commits from your current `HEAD` you want to squash. If you want to squash your last 3 commits, you'll go back 3 commits from `HEAD` (represented as `HEAD~3`). If you want to squash all commits on your feature branch since it diverged from `main`, you'd rebase onto `main` (e.g., `git rebase -i main`).   
+This command will open an editor (your default Git editor) displaying a list of your commits, usually from oldest to newest within the specified range, along with a set of commands.
+![](/images/blogs/git_squash.png)
+> After creating three individual commits, it is squashed into one single commit that says 'all three lines added'.   
+> When the rebase command is run the below editor opens.
+
+![](/images/blogs/git_rebase_editor.png)
+ Within the interactive rebase editor, you modify the action for each commit:
+- The first commit in your list should typically remain `pick` to serve as the base for your new, combined commit.
+- For subsequent commits, change their action to `squash` (or `s`) to combine their changes _and_ include their commit messages for later editing.
+- Alternatively, use `fixup` (or `f`) to combine their changes but discard their commit messages entirely, keeping only the messages from `pick`'ed or `squash`'ed commits.
+
+After saving and closing this instruction file, Git will then open a second editor. This editor will display the commit messages from the initial `pick`'ed commit and all `squash`'ed commits. Your task here is to consolidate these into a single, clear, and comprehensive commit message that accurately describes the entirety of the newly combined changes, effectively summarizing all the squashed commits into one.
+
+##### Reordering Commits
+Reordering commits means exactly what it sounds like: you are changing the chronological sequence of commits on a branch. The actual _changes_ introduced by each commit remain the same, but the order in which Git applies them is altered.   
+This can be done by reordering the commits in the interactive editor and Git will replay the commits in the new order and the commit IDs will be changed.   
+> If a commit depends on changes from a commit that now comes _after_ it in the new sequence, you might encounter conflicts. You'll resolve these just like you would during any other rebase conflict (`git add <file>`, `git rebase --continue`).
+
+**Critical Warning:**
+Reordering commits rewrites history, creating new commit IDs. If you do this on a shared or pushed branch, it causes divergent histories for collaborators. This leads to major syncing issues, potential data loss, and difficult recovery. So, never reorder (or rebase) branches that others are using; keep these operations to your local, unpushed work.
+<br/>
+<hr/>
+In **Part 2 of our Git series**, we'll dive into the crucial aspects of **Remote Repositories & Collaboration**, learn how to **Undo Things & Recover from Mistakes**, and explore various **Advanced Git Topics & Best Practices** to truly master your workflow.
