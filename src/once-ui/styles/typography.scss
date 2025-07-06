@@ -4,7 +4,12 @@ html {
     font-weight: var(--font-weight-default);
     color: var(--neutral-on-background-strong);
 }
-
+code {
+  background-color: #393939;
+  color: #e0e0e0;
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
 @media (--m) {
     html {
         font-size: var(--font-scaling-tablet);
