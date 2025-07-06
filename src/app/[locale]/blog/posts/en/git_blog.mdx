@@ -1,0 +1,92 @@
+---
+title: "An Introduction to Git"
+publishedAt: "2025-07-06"
+image: "/images/gallery/thumbnail3.jpg"
+summary: "Web Application Firewall (WAF) is used to protect web applications from various application level attacks"
+tag: "WAF, Security, Firewall"
+---
+
+## What in the Git is Going On?
+Ever found yourself in a digital mess like this?
+- Files named `document_final.docx`, `document_final_v2.docx`, and then the truly confusing `document_final_REALLY_final.docx`?
+- Working with a team, only to realize your changes just overwrote someone else's hard work (or vice-versa)?
+- Wish you could hit a magic "undo" button for your entire project, going back to a perfectly working version from last week?   
+
+If any of that resonates, then welcome! You're about to meet your new best friend in the world of project management and software development: **Git**, and the powerful concept of **Version Control Systems (VCS)**.
+
+### So, What Exactly Is 'Version Control Systems'
+At its heart, version control is like having a superpower for your project's history. Imagine taking a precise snapshot of your entire project files every time you make a significant change. Then, being able to instantly jump back to _any_ of those past snapshots if something goes wrong, or just to see how things evolved.   
+That's version control! It's a system that records changes to a file or set of files over time, allowing you to recall specific versions later.   
+
+### The "Why": What Problems Does Git Solve?
+Before tools like Git, managing code (or any complex project with multiple people and evolving files) was often a chaotic nightmare. Here are the big headaches Git swoops in to solve:   
+1. **The "Oops! I Broke It" Panic Button:** No more fear of making changes. If something breaks, Git lets you easily revert to a previous, working state. It's your ultimate safety net.
+2. **The "Who Changed What?" Mystery:** Working in teams? Git provides a crystal-clear history of every single change: who made it, when, and what exactly was modified. Collaboration becomes transparent.
+3. **Smooth Teamwork, Less Conflict:** Git makes it easy for multiple people to work on the _same files_ simultaneously without constantly overwriting each other's work. It helps manage and resolve those dreaded "merge conflicts" with grace.   
+
+And that's where **Git** comes in! It's the most popular and powerful distributed version control system out there, designed to make all of the above not just possible, but easy and efficient.   
+Whether you're a budding developer, a content creator, or managing any project with evolving files, understanding Git is a game-changer.    
+Let's dive deeper into how Git works and the various features that it offers!!
+
+## The Three Musketeers of Git: Understanding the Workflow
+Before proceeding ensure Git is installed on your system, `git --version` can be used to confirm the installation. Next set up the git environment with the username, email, line-ending and other configurations that are needed using the `git config` commands.   
+
+Git comprises of various concepts and commands but all of them revolve around the Three-Stage Model.   
+1. **Working Directory**   
+	- This can be imagined as the active space where all your files are stored and every change that is made is reflected here. 
+	- It is simply the active version of your files as you see it on your file system. 
+	- Git is aware of the files' existence and can identify if it is a new file that is added or a file that has been modified, but cannot track the changes when it is in the working directory.
+2. **Staging Area**   
+	- This can be thought of as the space where you throw in all the files that are changed and ready to be saved into git. 
+	- It is like a temporary buffer zone in which we can prepare the next snapshot as a set of files before saving it as a commit. 
+	- Any changes made after staging a file will not be saved in the current snapshot.
+	- `git add <filename>` can be used to move a file from working directory into the staging area -> regex can also be used for the filename
+	- If you have any file like config files that need not be committed, it can be ignored from git permanently by adding it to the `.gitignore` file.
+	- This area is important as it allows the user to review the changes made and allows to commit small, independent changes.
+	- `git status` command can be used to get report about the state of files that are already in the staging area (ready to commit), the ones that are yet to be staged (changed in working directory) and the ones that Git does not know exists yet (untracked files).
+3. **Local Repository**   
+	- This is the main part of your Git project on your machine. It holds the entire project's historical data
+	- `git commit -m <message>` command is used to capture all the files in the staging area as a snapshot, this snapshot will be saved as a commit
+	- The hidden `.git` folder in your project folder stores all the git commits, branches, tags and all the git configurations -> `git init` command can be used to create the `.git` folder and define your project folder as a git controlled folder
+
+#### Commit
+We spoke a lot about `commit` in the previous section, but what exactly is a commit in git?   
+You can think of a `commit` in Git as much more than just hitting "save". It's like taking a **high-fidelity snapshot** of your _entire project_ at a very specific moment in time. It is a building block in a long chain, these blocks contain all the details about the changes made in the existing files, addition of files or deletion of files from previous commits.   
+Each commit is a unique block with its own unique timestamp and a immutable record of your entire project at that moment of time that the snapshot was captured. These commits have more than just the files at that point, it contains of various metadata   
+- **A Unique Identifier (Hash):** Every commit gets a unique, long string of characters (like `f7b3a9c...`) called a **SHA-1 hash**. This is like its digital fingerprint, allowing Git to instantly identify and access that exact commit.
+- **Author information**
+- **Timestamp**
+- **Commit Message**   
+
+### History
+When you make a series of commits, Git links them together, creating a chronological sequence. This long sequential chain that these commits form is called the *git history* and the `git log` command can be used to get the list of commits starting with the most recent ones.
+
+## Your First Git Commands: A Quick Walkthrough
+1. **Initialising Git and adding new files:**
+	![](/images/blogs/git_init.png)
+	![](/images/blogs/git_status.png)
+	In this image we can see that both *a.txt* and *b.txt* were staged and then *b.txt* was modified. This can be seen in the status, both *a.txt* and *b.txt* are shown ready to be committed, *b.txt* has some changes that are not yet staged and *c.txt* is untracked.   
+	As shown in the image, the staged files can be removed from staging area using the `git rm --cached <file>` and the changes in working directory can be discarded using `git restore <file>` or staged using `git add <file>`
+<br/>
+2. **Creating First Commit:**   
+	![](/images/blogs/git_log.png)
+	> In some shells like ZSH, when commands like `git log` are executed the `less` command uses some options and sends it to a pager on new screen, to get the output on the same terminal use `unset LESS`
+
+
+## The Blueprint of Progress: Visualizing Git's DAG Structure
+We've talked about commits as project snapshots. But how does it manage to tell the complex story of your project, including all those times you've branched off, worked on new features, and then merged them back in?
+
+The secret is Git's underlying data structure: a **Directed Acyclic Graph (DAG)**   
+Version Control Systems (VCS) might look like a *list* of changes one after the other, but under the hood Git actually is not just a *list* but a *family tree* of interconnected events. Each commit adds a new node into this intricate network.
+
+#### Understanding a DAG in the context of Git
+- **Graph:** Each `commit` is a **node** (a point) in this network. The connections between them (the **edges**) are pointers from a newer commit back to its immediate parent commit(s).
+- **Directed:** These pointers only go one way: **backward in time**. A new commit always points to the commit that came before it. This lets Git trace your project's history accurately, step by step.
+- **Acyclic:** This just means "no loops." You can't follow the pointers and end up back at an earlier commit in the same line. This keeps your history clear, consistent, and prevents time travel paradoxes!
+
+#### How Commits Build A DAG?
+Every time you execute `git commit`, Git performs a few magical steps:
+1. It bundles up the snapshot you prepared in the Staging Area.
+2. It creates a new commit object (our "node").
+3. This new commit object stores a pointer to the **parent commit** – the commit that represents the state _before_ these new changes.
+4. If you're merging two branches, the new merge commit will actually store _two_ parent pointers, one for each branch that was merged. This is how the "tree" can have multiple "parents" converging!
