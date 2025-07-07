@@ -170,6 +170,8 @@ This is the process of moving the `HEAD` from the current branch to another bran
 > Restore cannot be combined in a `switch` command and instead a `restore` command has to be used   
 > `git restore <file-path>` restores to latest commit on the current branch (HEAD) and `git restore --source=<commit-hash> <file-path>` to restore files to that of a commit
 <br/>
+Sometimes you need to switch branches mid-development, but find yourself with uncommitted changes that prevent a clean switch. This is where `git stash` becomes incredibly useful: it temporarily shelves your ongoing work, allowing you to switch branches cleanly and return to your changes exactly where you left off later. We'll dive deeper into Git Stash in Part 2 of **Git Decoding**!
+<br/>
 ##### Detached HEAD
 We just spoke about this **detached HEAD** state when we spoke about checkout to a commit instead of a branch. In normal scenarios `HEAD` points to a branch name which in turn points to a commit. Now when a new commit is added the branch pointer moves and the HEAD moves along with it. This is a `normal` or `attached` HEAD.   
 A `detached HEAD` state occurs when the HEAD points to a commit directly instead of pointing to a branch name. In this case since it is not attached with a branch, the commits on the branch continue to move but the HEAD is detached and independent.   
@@ -212,7 +214,7 @@ Despite the danger, entering a detached HEAD state can be very useful for specif
 
 #### Merge in Action  
 First switch over to the branch that you want to merge into and this will be known as the `target branch` (if bringing a feature into main, main becomes the target branch) and the branch that is merged from is called the `source branch`(feature branch).
-Next run the command `git branch <branchname>`, this will merge changes from the `<branchname>` into the current branch.
+Next run the command `git merge <branchname>`, this will merge changes from the `<branchname>` into the current branch.
 
 If you are someone who has worked with basic branches before, you would have noticed sometimes a merge works directly and shows fast-forwarded. But sometimes asks you for a new merge commit message and shows merge by 'ORT' strategy. Let's try demystifying the different types of merging a branch.
 
@@ -382,4 +384,4 @@ This can be done by reordering the commits in the interactive editor and Git wil
 Reordering commits rewrites history, creating new commit IDs. If you do this on a shared or pushed branch, it causes divergent histories for collaborators. This leads to major syncing issues, potential data loss, and difficult recovery. So, never reorder (or rebase) branches that others are using; keep these operations to your local, unpushed work.
 <br/>
 <hr/>
-In **Part 2 of our Git series**, we'll dive into the crucial aspects of **Remote Repositories & Collaboration**, learn how to **Undo Things & Recover from Mistakes**, and explore various **Advanced Git Topics & Best Practices** to truly master your workflow.
+In **Part 2 of our Git Decoding series**, we'll dive into the crucial aspects of **Remote Repositories & Collaboration**, learn how to **Undo Things & Recover from Mistakes**, and explore various **Advanced Git Topics & Best Practices** to truly master your workflow.
