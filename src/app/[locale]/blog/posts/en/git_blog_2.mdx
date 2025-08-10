@@ -1,0 +1,359 @@
+---
+title: "Git Decoded (Part 2): Remote Repositories, Collaboration & Advanced Git Workflows"
+publishedAt: "2025-08-11"
+image: "/images/gallery/thumbnail5.jpg"
+summary: "This guide advances your Git skills by covering remote collaboration, essential commands like push and pull, and how to recover from mistakes with git reset and git revert. It concludes by exploring powerful advanced tools like git bisect and git submodules."
+tag: "Remote, Reset, Revert, Bisect, Cherry-Pick"
+---
+
+## Remote Repositories
+Up until now, we've mostly focused on your Git project living entirely on your local machine. But what happens when you want to collaborate with a team, or simply have a secure backup of your code that isn't just on your laptop?
+
+This is where ***Remote Repositories*** come into play.
+
+### What is a Remote Repository?
+At its core, a remote repository is simply a **version of your Git project that lives somewhere else**, typically on a server accessible over the internet or a private network. Think of it as the "master copy" or a "central hub" of your project where all team members can send and receive changes.
+
+While most of the traditional version control systems use a centralized model, Git is distributed. This means that when you clone a repository, you get a _complete copy_ of the entire project history, including all commits and branches, right on your local machine. The remote repository is just another copy of this same history, but one that's shared and serves as a common ground.
+
+> **Centralized Version Control System (CVCS)**   
+> In a CVCS, there's a **single, central server** that holds the entire project history, including every file version and all commits. Developers don't  maintain the entire history and typically have only the files that they work with on their system.   
+> <br/> <br/>
+> **Issues in CVCS**   
+> - Single Point of Failure
+> - Online Dependency
+> - Limited Local History
+> - Concurrency Management (file locks)
+
+
+### Git Protocol: HTTPS vs SSH
+When connecting to a remote Git repository, the choice between HTTPS and SSH impacts how you authenticate and manage your workflow. While both protocols are secure, they operate differently.   
+
+#### HTTPS
+The HTTPS protocol uses standard web authentication methods to connect to a Git server.
+- **Authentication:** You authenticate using your username and a password. For accounts with two-factor authentication enabled, a **Personal Access Token (PAT)** is required.
+- **Pros:** It is simple to set up as it requires no key generation. HTTPS traffic also uses a standard port (443), making it highly compatible with most network environments and corporate firewalls.
+- **Cons:** You may need to enter your credentials frequently. It's also generally considered less secure than SSH keys, as passwords and tokens can be more susceptible to compromise.
+
+<br/>
+
+#### SSH
+The SSH protocol uses a public/private key pair to provide secure, password less authentication.
+- **Authentication:** A public key is added to your Git hosting service, while the corresponding private key remains on your local machine. This allows your local Git client to prove its identity to the server without needing a password.
+- **Pros:** Offers a seamless, password less workflow after the initial setup. SSH keys are also a more robust and secure authentication method than passwords.
+- **Cons:** Requires a one-time setup to generate and configure the key pair. The standard port (22) can occasionally be blocked by firewalls.
+<br/>
+
+## Starting with Existing Project
+When you want to start working with an existing Git repository, you'll encounter two key actions: **forking** and **cloning**.
+
+### Forking
+Forking is a **server-side** operation that you perform on a Git hosting service like GitHub or GitLab. When you fork a repository, you're creating a personal copy of that repository under your own account. It's an independent duplicate of the project that is completely separate from the original.   
+It provides a space to make changes on a project without affecting the original and it used when there is no direct write access to the main repository or if it is for open-source contribution and not owned by you.
+
+### Cloning
+Cloning is a **client-side** operation and Git's way of getting a complete copy of a remote repository from a remote server (GitHub or GitLab) into the local system. It creates a complete, independent copy of the repo along with all the git metadata. It is similar to downloading the repository but along with the metadata that makes it a git repo.   
+It can create a working version of the project that can be interacted with offline, it is used to get local access to a repo with write access like personal projects or team's repo, or to work locally on an already forked repo.   
+Once cloning is done all the files are available locally along with git metadata. It also creates a remote connection (`origin`) using which the local repository can connect back into the remote repository to perform actions like push and pull.   
+
+`git clone <repository_url> [local directory name]`
+
+### Fork-Clone Workflow
+Forking is a server action that creates a personal copy of a repository, while cloning is a local action that downloads that repository to your machine.
+1. **Fork** a project on the web to create your own copy.
+2. **`git clone`** your new fork to your local machine.
+3. Push your changes to your fork.
+4. Open a **Pull Request** from your fork to the original project
+<br/>
+<hr/>
+### Remote Repository Syncronization
+#### Push
+`git push` is used when you have some changes made on your local machine and you want to upload that into the remote repository for your teammates to be able to access it or just to have a backup of it. It will take the history of the local branch and update its corresponding remote branch.  
+
+`git push <remote-name> <branch-name>`
+- `<remote-name>` is used to specify which remote repository to push it into, by default clone will create a `origin` remote.
+- `<branch-name>` is the name of the branch that needs to be pushed.   
+<br/>
+#### Pull
+When the team works on the project the remote repository is constantly updated with new commits. `git pull` command is used to keep the local repository and the working files in sync with the remote changes.   
+
+**Pull** comprises of two steps - `git fetch` and `git merge`.   
+1. **Fetch** - connects with the remote repository and downloads all the new commits, branches and tags that do not exist on the local yet. These changes are stored in the local repo but not integrated into the working files.
+2. **Merge** - takes the changes from remote branch and merges into the local branch
+
+If there are no conflicting changes on the remote branch it just merges into local branch directly, the local git history will be updated to include remote commits    
+If merge conflicts occur due to changes made on same file on same line on both remote and local, the conflict has to be resolved before pull can be completed.   
+**Pull** ensures that the local copy is up to date and prevents divergence which can increase merge complexities.   
+
+`git pull <remote-name> <branch-name>`
+<br/>
+#### Fetch
+While `git pull` is a convenient command for automatically updating your local branch, sometimes you want to see what's new on the remote repository without actually integrating those changes into your current work. This is where `git fetch` comes in. It downloads all the changes and stores it in a **remote-tracking branch**  like `origin/main` but does not merge them into the local branch. It updates the repository's view of the remote but leaves the current working directory and the local branch untouched   
+
+`git fetch <remote-name>`   
+
+**Advantages**   
+- Non-Destructive - no interference or unexpected merge commit
+- Preview Changes - allows inspecting the changes before merging it
+- Decision Making - after a fetch, the commits can be seen and then a decision can be taken whether to directly merge or rebase the local commits on top of remote or even discard it
+<br/>
+**Commands**   
+1. `git log main..origin/main` - see which commits are on the remote but not on local branch
+2. `git diff main..origin/main` - see files changes
+3. `git merge origin/main` - once changes are reviewed it can be merged 
+<br/>
+<hr/>
+
+## Multiple Remotes
+Most personal projects use just one simple 'origin' remote, but large collaboration projects might require multiple remotes.   
+One common scenario for multiple remotes is the **fork-pull-request** workflow.   
+1. `origin` - personal fork of the project on platforms like GitHub. Used to push the local commits for it.
+2. `upstream` - original, central repository from where the project was forked from. You can fetch and pull from this remote to get the latest changes from the project's maintainers.   
+
+Multiple remotes can be used for different purposes like private collaboration and deployment.   
+
+**Adding Remote**   
+`git remote add <remote-name> <repo-url>`
+
+**Listing Remotes**   
+`git remote -v`
+
+**Interacting With Remote**   
+Specify the remote name in the `push`, `pull` and `fetch` commands.   
+Eg: `git pull upstream`   
+
+**Removing Remote**   
+`git remote rm <remote-name>`
+
+## Collaboration
+Git provides the tools for managing a project's history. The Pull Request (PR) in GitHub or Merge Request (MR) in GitLab is used for collaborative development. It's the standard, web-based process used on platforms like GitHub, GitLab and Bitbucket to propose and review changes before merging it into official main codebase.
+
+### Workflow
+1. **Latest Code** - Ensure the local branches (main and any other involved branches) are up to date with the remote. 
+	- `git switch main`
+	- `git pull`
+<br/>
+2. **Create new branch** - new branch for specific task or feature
+	- `git switch -c <branch-name>`
+<br/>
+3. **Develop, Commit, Push** - write code, commit changes and push new branch
+	- `git push -u origin <branch-name>`
+<br/>
+4. **Open Pull Request (PR)** - once branch is published, web-interfaces of the hosting provider like GitHub will prompt to create a new PR from the branch. Specify the source and the target branch along with PR descriptions. Add required reviewers and any other required details and open the PR
+<br/>
+5. **Code Review and Discussion** - PR is the formal discussion channel to review the code, comment and ask questions or to suggest changes.
+<br/>
+6. **Update PR** - any suggestions can be incorporated in the same branch and will be updated in the same PR.
+<br/>
+7. **Merge the PR** - once all the review is completed and the automated checks are passed the PR is merged.
+<br/>
+8. **Clean Up** - it is preferred to delete the feature branch both locally and remotely after the merge is complete
+	- Local - `git branch -d <branch-name>`
+
+<br/>
+<br/>
+
+### Working With Remote Repositories
+1. **Create remote repository** - through the **New** repo option on GitHub
+2. **Add remote** - `git remote add origin <repo_url>`
+3. **Change name of branch to main** - `git branch -M main`; This can be helpful in some cases where the default is still master as per older standards.
+4. **Push changes** - `git push origin main`
+	![](/images/blogs/git_remote_1.png)
+5. **Fetch**
+	![](/images/blogs/git_remote_3.png)
+	- After **fetch** it can be seen that the working directory still does not have the lorem.txt
+	- After checkout (switch command cannot be used here), the changes can be seen in the remote branch
+	- Once changes are verified it can be merged into the local branch
+<br/>
+6. **View differences**
+	![](/images/blogs/git_remote_2.png)
+	- This has to be done before the merge into local branch
+
+<br/>
+<hr/>
+
+### Recovering From Git Mistakes
+Git provides powerful tools to help you undo local changes you haven't yet pushed to a remote repository. The two primary commands for this are `git restore` (the modern, safer choice) and `git reset` (the more powerful, but also more dangerous, choice).   
+
+#### Git Restore
+It is the safe undo option and is a dedicated command for discarding changes in the working directory or to move files out of the staging. 
+1. **Unstage File** - `git restore --staged <filename>`; If files are already added into staging area using `git add`, this command can be used to move them out of the staging area while keeping the changes untouched.
+2. **Discard uncommitted changes in working directory** - `git restore <filename>`; This can be used if a file was modified but not yet committed, the file is reset back to the version as in the last commit and any modifications are discarded.
+3. **Discard all changes** - `git restore .`
+<br/>
+
+#### Git Reset
+This is a more powerful but dangerous command. It works by moving the HEAD to another pointer thus un-committing the changes. It has different effects based on how it is used.
+1. `--soft`
+	- Moves the HEAD pointer but leaves the staging area as it is, essentially removes the last commit while keeping changes intact
+	- `git reset --soft HEAD~n` - to remove 'n' last commits
+<br/>
+2. `--mixed`
+	- Moves the HEAD pointer and un-stages the changes but the working directory will still have the changes as uncommitted modifications 
+	- This is the default mode when `git reset` is used
+	- `git reset HEAD~n`
+<br/>
+3. `--hard`
+	- Moves the HEAD pointer and discards all the changes done upto the specified commit. This discards all the changes in the staging area and also the working directory.
+	- Destructive action and cannot be undone
+	- `git reset --hard HEAD~n`
+	- This mode should never be used on a published branch that is used by others as it can rewrite history and cause issues in syncing
+
+> After reset the new history can be pushed into the remote branch by using `git push --force` but should be avoided if it is a branch used by others.   
+
+<br/>
+
+#### Git Amend
+This command allows you to **replace the most recent commit** with a new, updated commit. The modified commit has a different hash value thus making it different from previous commit. Due to the change in hash this should not be used in collaborative shared remote branches.   
+This is commonly used to fix any typos or make small code changes in the last commit.   
+Add new files or make changes and finally run `git commit --amend`. It opens the text editor which allows to change the commit message if needed, close it to create new commit that replaces the latest commit.   
+
+> Similar to `reset` this also changes history and should be avoided on shared remote branches
+
+<br/>
+
+#### Git Revert
+Unlike `reset` or `amend` the `git revert` does not change the history. It simply creates a new commit on top of the existing commits which undo the actions in the specified commit. Like deleting new files that were added or removing new lines that were added in that commit. It is a safe way of changing the codebase without having to do force push or cause a divergence in collaborators versions.   
+1. `git log` - find the hash of the commit to revert
+2. `git revert <commit-hash>`
+3. Write the commit message in the editor that opens and save it
+
+<br/>
+
+#### Git Stash
+It is used to temporarily save any uncommitted changes in the current branch when you need to switch over to another branch midway. `git stash`  will take all modified files and store in a temporary 'stash' and restore the working directory to the HEAD making it a clean branch that can allow switching.   
+1. **Stash changes** - `git stash push -m <message>`
+2. **Apply latest stash changes** 
+	- `git stash pop` will apply the latest stash and remove it from the list
+	- `git stash apply` will apply the latest stash and keep it in the stash list
+3. **Managing Stash** 
+	- **List stash** - `git stash list`
+	- **Apply older stash** - `git stash apply <stash-id>`
+	- **Delete specific stash** - `git stash drop <stash-id>`
+	- **Delete all** - `git stash clear`
+
+> Stash by default saves only the files tracked by git, to include untracked files use the `-u` flag - `git stash push -u`
+
+
+### Commands Walkthrough
+1. `git reset`   
+	- **mixed** - by default `--mixed` is used and the changes are un-staged and stored in working directory ![](/images/blogs/git_reset_1.png)
+	<br/>
+	- **soft** - `--soft` deletes that commit and has the changes in the staging area ![](/images/blogs/git_reset_2.png)
+	<br/>
+	- **hard** - `--hard` will delete that latest commit and also delete all the changes from the working directory and staging area, essentially discarding them and it cannot be undone  ![](/images/blogs/git_reset_3.png)
+<br/>
+2. `git commit --amend` ![](/images/blogs/git_amend.png)
+<br/>
+3. `git revert` ![](/images/blogs/git_revert.png)
+	- Revert creates a new commit on top of the existing commits
+<br/>
+4. `git stash`
+	- Untracked files are not saved in the stash  ![](/images/blogs/git_stash_1.png)
+	<br/>
+	- Untracked files are stashed ![](/images/blogs/git_stash_2.png)
+<br/>
+<hr/>
+
+## Advanced Git Topics
+### Git Tags
+While branches are for ongoing, moving development, **Git tags** are for marking a specific, static point in a project's history as important. They act as permanent, unmoving pointers to a commit, most often used to mark a new software version or release (e.g., `v1.0.0`).   
+
+Git has two main tags:   
+1. **Lightweight tags**: `git tag <tag-name>` - these are simple pointers to a specific commit, git does not store special metadata and it is not stored as full objects.
+2. **Annotated tags**: `git tag -a <tag-name> -m <message>` - these are stored as full objects with metadata including tagger's name, email, date and message 
+
+> Marking releases should always use the annotated tags as it provides verifiable records.
+
+#### Commands
+- **Create Lightweight Tag** - `git tag <tag-name> [<commit-hash>]`
+<br/>
+- **Create Annotated Tag** - `git tag -a <tag-name> [<commit-hash>] -m <message>`
+<br/>
+- **List tags** 
+	- `git tag` to list all tags
+	- `git tag -l "<regex>"` to list pattern only
+	- `git tag -v <tag-name>` for verbose details on an annotated tag (doesn't work with lightweight tags)
+<br/>
+- **Remote Tags** - `git push --tags`
+	![](/images/blogs/git_tag_1.png)
+<br/>
+
+- **Switch to tag** - `git checkout <tag-name>` creates a detached HEAD and goes to that tag snapshot
+<br/>
+- **Delete Tag**
+	- Local - `git tag -d <tag-name>`
+	- Remote - `git push origin --delete <tag-name>`
+	![](/images/blogs/git_tag_2.png)
+
+### Git Aliases
+**Git aliases** are a powerful, built-in feature that allows you to create custom shortcuts for complex or frequently used commands, saving you time and preventing typos. This is all configured in your global `.gitconfig` file, so the aliases are available in every repository on your system. The other option is to add alias in the profile directly in case of any Unix based systems.   
+- **Create Alias** - `git config --global alias.<alias-name> <command>`
+- **Listing Aliases** - `git config --global --get-regexp alias`
+<br/>
+
+### Git Hooks
+**Git hooks** are scripts that automatically execute at specific points in the Git workflow, such as before you commit or after you push. They are a powerful way to automate tasks, enforce policies, and ensure a consistent workflow across a team. They are stored in `.git/hooks` directory of every repository, it has some samples (.sample files) which can be renamed and used based on the need.   
+
+Two types of hooks:
+1. **Client-Side Hook** - local to user and affect only their repository
+	- **`pre-commit`**: Runs before a commit is finalized; useful for linting, running tests, or checking for errors before a commit is created.
+	- **`prepare-commit-msg`**: Runs after a commit message is created but before the editor opens; useful for automatically adding information like a ticket number to the message.
+	- **`post-commit`**: Runs after a commit has been made; often used to trigger notifications or other non-critical follow-up tasks.
+<br/>
+2. **Server-Side Hook** - run on the remote repository and are essential for enforcing project-wide policies.
+	- **`pre-receive`**: Runs before a push is applied to the remote repository; useful for enforcing branch permissions or rejecting pushes that contain specific files.
+	- **`post-receive`**: Runs after a push has successfully completed; often used to trigger a CI/CD pipeline or send notifications.
+<br/>
+
+### Git Bisect
+If you find a bug in your code and you are sure it was not there at some particular point of time, `git bisect` can be used to find the exact commit that caused the issue without manually searching through the history. It is a very powerful debug tool and uses the concept of **guided binary search** to optimize the search to logarithmic complexity.   
+
+**Workflow**   
+1. **Start the session** - `git bisect start`
+<br/>
+2. **Mark bad commit** - `git bisect bad` tells git that the current commit (HEAD) is a bad commit with the bug
+<br/>
+3. **Mark good commit** - `git bisect good <commit-hash>` tells git the newest previous commit which did not have a bug
+<br/>
+4. **Iteratively Test** - git will automatically checkout to the commit and we just have to run the codebase and tell if it is 'good' or 'bad'
+<br/>
+5. **Result** - finally after halving the search space every time the bad commit can be found, along with the changes that was made in that commit
+<br/>
+6. **End the session** - `git bisect reset` to end and cleanup
+<br/>
+
+### Git Blame
+Similar to `git bisect` this command can be used for debugging purposes. It can help in understanding the history of a file line by line. It shows who had modified that line and in which commit as of the current HEAD status.   
+`git blame <filepath>`   
+
+It annotates each line with the following information.
+1. abbreviated commit hash
+2. author's name
+3. timestamp of commit 
+4. line number
+<br/>
+
+### Git Submodules
+For larger projects, you may need to include the code from other repositories as a dependency. Git submodules are a way to achieve this, allowing you to embed one Git repository inside another as a subdirectory. A Git submodule is a reference to a specific commit in another repository. The parent repository doesn't track the submodule's files; it only tracks the reference to that single commit.
+1. **Adding submodule** - `git submodule add <submodule_url> <submodule_path>`
+	- Clones the shared library and stores it in the submodule path and stores its details in `.gitmodules` file stored at the root of the project
+<br/>
+2. **Clone** 
+	- `git clone --recurse-submodules <submodule_url>` to clone with submodules
+	- `git submodules init`, `git submodules update` to modify existing clone
+<br/>
+3. **Update submodule** - `git submodule update --remote <submodule_dir>`
+	- Updates the submodule to the latest version commit in its default branch
+<br/>
+
+### Cherry Pick
+Sometimes, you only need to bring a single commit's changes from one branch to another, without merging the entire branch. **`git cherry-pick`** is a powerful command that does exactly this, allowing you to "pick" a specific commit and apply its changes to your current branch as a new commit.   
+It can be used in **hotfix** scenarios where there is one commit in a temporary or feature branch that needs to be brought into production without taking the feature in-progress or to choose some particularly useful commits from some other branches.   
+
+**Workflow**   
+1. **Find hash** - `git log --online` to find the commit that is needed 
+2. **Switch to target** - switch to target branch where the commit has to be added
+3. **Cherry-pick** - `git cherry-pick <hash>` will be creating a new commit on the target branch which has the same changes as original commit
+
+> Cherry pick has to be used only for small changes and not to bring in many commits
