@@ -66,7 +66,7 @@ Forking is a server action that creates a personal copy of a repository, while c
 4. Open a **Pull Request** from your fork to the original project
 <br/>
 <hr/>
-### Remote Repository Syncronization
+### Remote Repository Synchronization
 #### Push
 `git push` is used when you have some changes made on your local machine and you want to upload that into the remote repository for your teammates to be able to access it or just to have a backup of it. It will take the history of the local branch and update its corresponding remote branch.  
 
@@ -352,7 +352,7 @@ Sometimes, you only need to bring a single commit's changes from one branch to a
 It can be used in **hotfix** scenarios where there is one commit in a temporary or feature branch that needs to be brought into production without taking the feature in-progress or to choose some particularly useful commits from some other branches.   
 
 **Workflow**   
-1. **Find hash** - `git log --online` to find the commit that is needed 
+1. **Find hash** - `git log --oneline` to find the commit that is needed 
 2. **Switch to target** - switch to target branch where the commit has to be added
 3. **Cherry-pick** - `git cherry-pick <hash>` will be creating a new commit on the target branch which has the same changes as original commit
 
