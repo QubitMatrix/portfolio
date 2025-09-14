@@ -74,6 +74,9 @@ Forking is a server action that creates a personal copy of a repository, while c
 - `<remote-name>` is used to specify which remote repository to push it into, by default clone will create a `origin` remote.
 - `<branch-name>` is the name of the branch that needs to be pushed.   
 <br/>
+
+It is a good practice to pull before making new changes, however if the remote tracking branch has moved ahead after making the changes and the push fails, run `git pull` to get latest updates and `git push`. If it still fails, merge the remote changes by running `git merge --no-ff` and then push again.
+
 #### Pull
 When the team works on the project the remote repository is constantly updated with new commits. `git pull` command is used to keep the local repository and the working files in sync with the remote changes.   
 
